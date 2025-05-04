@@ -1,0 +1,48 @@
+.goalCreationTitle {
+  min-height: 85px;
+  background: white;
+  border-bottom: 1px solid #eaeaea;
+  font-size: 24px;
+  font-weight: 700;
+  padding: 26px 983px 26px 26px;
+}
+
+.cancelBtnCreateGoal {
+  position: absolute;
+  bottom: 10%;
+  left: 10%;
+  display: flex;
+  justify-content: flex-end;
+  padding: 15px;
+  background: white;
+  align-items: center;
+  width: 80%;
+  border: 1px solid;
+  border-radius: 10px;
+}
+
+.cancelBtnCreateGoal1 {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px;
+  background: white;
+  align-items: center;
+  width: 80%;
+  border: 1px solid;
+  border-radius: 10px;
+  margin: 0 auto;
+}
+
+.fixedPanel {
+  position: fixed;
+  bottom: 10px;
+  left: 15%;
+  border: 1px solid;
+  width: 1400px;
+  display: flex;
+  justify-content: flex-end;
+  border-radius: 20px;
+  background: white;
+  max-height: 50px;
+  padding: 10px;
+}

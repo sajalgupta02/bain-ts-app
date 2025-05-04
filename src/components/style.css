@@ -1,0 +1,109 @@
+.test {
+  display: flex;
+  padding: 24px 198px 24px 24px;
+  gap: 100px;
+  background-color: #003472;
+  color: white;
+  min-height: 72px;
+}
+
+.btnCss {
+  display: inline-flex !important;
+  height: 30px;
+  padding: 4px 20px !important;
+  align-items: center !important;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.goalStatus {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+.percentage {
+  font-size: 36px;
+}
+
+.circleGoal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid;
+  border-radius: 50%;
+  height: 50px;
+  width: 50px;
+  font-weight: bold;
+  font-size: 24px;
+}
+
+.smartScoreBtn {
+  background: linear-gradient(
+    121deg,
+    #00009d 4.2%,
+    #390d8f 31.49%,
+    #922569 62.22%
+  );
+  border-radius: 10px !important;
+  opacity: 0.5;
+  color: white !important;
+}
+
+.publishBtn {
+  border-radius: 10px !important;
+  border: 1px solid var #003f72;
+  opacity: 0.3;
+  background: #003f72 !important;
+  color: white !important;
+}
+
+.createGoalBtn {
+  border-radius: 10px !important;
+  background: var(--lt-blue, #003f72);
+}
+
+.heading {
+  color: #002b4e;
+  font-family: "Open Sans" !important;
+  font-size: 24px !important;
+  font-style: normal;
+  font-weight: 800 !important;
+  line-height: normal !important;
+}
+
+.headingDate {
+  color: #858585 !important;
+  font-family: "Open Sans" !important;
+  font-size: 14px !important;
+  font-style: normal !important;
+  font-weight: 600 !important;
+  line-height: normal !important;
+}
+
+.verticalLine {
+  width: 2px;
+  height: 40px;
+  background: #858585;
+  margin: 30px 10px !important;
+}
+
+.horizontalLine {
+  height: 5px;
+  align-self: stretch;
+  background: #007ddd;
+}
+
+.totalGoals {
+  color: #007ddd;
+  font-size: 24px !important;
+  font-style: normal !important;
+  font-weight: 700 !important;
+  line-height: 48px !important;
+}
+
+.smartScore {
+  margin-bottom: 5px;
+}
