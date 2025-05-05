@@ -180,9 +180,9 @@ export default function GoalCreateOrEditForm({
                 fontSize: "24px",
                 color: "#5F1EA3",
                 marginTop: "0",
-                border: "1px solid #E0E0E0",
                 borderTop: "none",
                 padding: "10px",
+                backgroundColor: "#F3EDFF",
               }}
             >
               <Typography fontWeight={900}>
@@ -233,9 +233,9 @@ export default function GoalCreateOrEditForm({
                 fontSize: "24px",
                 color: "#5F1EA3",
                 marginTop: "0",
-                border: "1px solid #E0E0E0",
                 borderTop: "none",
                 padding: "10px",
+                backgroundColor: "#F3EDFF",
               }}
             >
               <Typography fontWeight={900}>

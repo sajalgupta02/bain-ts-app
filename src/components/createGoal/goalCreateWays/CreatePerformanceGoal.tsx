@@ -83,20 +83,29 @@ const CreatePerformanceGoal = () => {
         evaluateBtnClicked={evaluateBtnClicked}
         setEvaluateBtnClicked={setEvaluateBtnClicked}
       />
-      <Box className="cancelBtnCreateGoal1">
-        <Button
-          onClick={evaluateWithAIBtn}
-          style={{
-            borderRadius: "20px",
-            color: "white",
-            padding: "10px 30px",
-            background:
-              "linear-gradient(121deg, #00009D 4.2%, #390D8F 31.49%, #922569 62.22%)",
-          }}
-        >
-          <AutoAwesomeIcon fontSize="small" /> &nbsp;
-          <strong>Evaluate with AI</strong>
-        </Button>
+      <Box
+        className="cancelBtnCreateGoal1"
+        sx={
+          !evaluateBtnClicked
+            ? {}
+            : { display: "flex", justifyContent: "flex-end" }
+        }
+      >
+        {!evaluateBtnClicked && (
+          <Button
+            onClick={evaluateWithAIBtn}
+            style={{
+              borderRadius: "20px",
+              color: "white",
+              padding: "10px 30px",
+              background:
+                "linear-gradient(121deg, #00009D 4.2%, #390D8F 31.49%, #922569 62.22%)",
+            }}
+          >
+            <AutoAwesomeIcon fontSize="small" /> &nbsp;
+            <strong>Evaluate with AI</strong>
+          </Button>
+        )}
         <Box sx={{ display: "flex", gap: "15px" }}>
           <Button
             onClick={handleSubmit}

@@ -41,15 +41,27 @@
 }
 
 .smartScoreBtn {
+  border-radius: 10px !important;
+  color: white !important;
+}
+
+.smartScoreBtnOn100 {
+  background: linear-gradient(
+    121deg,
+    #00009d 4.2%,
+    #390d8f 31.49%,
+    #922569 62.22%
+  ) !important;
+}
+
+.smartScoreBtnNotOn100 {
+  opacity: 0.5;
   background: linear-gradient(
     121deg,
     #00009d 4.2%,
     #390d8f 31.49%,
     #922569 62.22%
   );
-  border-radius: 10px !important;
-  opacity: 0.5;
-  color: white !important;
 }
 
 .publishBtn {

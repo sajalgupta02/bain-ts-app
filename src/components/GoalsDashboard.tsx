@@ -6,12 +6,14 @@ import GoalsAccordion from "./GoalsAccordion";
 import { useNavigate } from "react-router-dom";
 import ReusableStepper from "./ReusableStepper";
 import { useState } from "react";
+import EvaluateSmartScoreDialog from "./dialogs/EvaluateSmartScoreDialog";
 
 const GoalDashboard = () => {
   const [activeStep, setActiveStep] = useState(0);
+  const [evaluateBtnClicked, setEvaluateBtnClicked] = useState(false);
 
   const [goals, setGoals] = useState([
-    { score: 7, weight: 5 },
+    { score: 7, weight: 20 },
     { score: 8, weight: 20 },
     { score: 9, weight: 30 },
     { score: 8, weight: 30 },
@@ -25,6 +27,7 @@ const GoalDashboard = () => {
 
   const evaluateSmartScore = () => {
     setActiveStep(1);
+    setEvaluateBtnClicked(true);
   };
 
   const publishToSF = () => {
@@ -61,8 +64,13 @@ const GoalDashboard = () => {
               Create Goal
             </Button>
             <Button
+              disabled={totalWeight !== 100}
               onClick={evaluateSmartScore}
-              className="smartScoreBtn btnCss"
+              className={`smartScoreBtn btnCss ${
+                totalWeight === 100
+                  ? "smartScoreBtnOn100"
+                  : "smartScoreBtnNotOn100"
+              }`}
             >
               <AutoAwesomeIcon fontSize="small" /> &nbsp; Evaluate overall SMART
               score
@@ -123,6 +131,12 @@ const GoalDashboard = () => {
         </Box>
         <GoalsAccordion goals={goals} setGoals={setGoals} />
       </Box>
+      {evaluateBtnClicked && (
+        <EvaluateSmartScoreDialog
+          evaluateBtnClicked={evaluateBtnClicked}
+          setEvaluateBtnClicked={setEvaluateBtnClicked}
+        />
+      )}
     </>
   );
 };
