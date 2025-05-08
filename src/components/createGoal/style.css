@@ -46,3 +46,7 @@
   max-height: 60px;
   padding: 10px;
 }
+
+.hoverOnCard:hover{
+  background: #c7fcec;
+}

@@ -81,23 +81,7 @@ const CreatePerformanceGoal = () => {
         evaluateBtnClicked={evaluateBtnClicked}
         setEvaluateBtnClicked={setEvaluateBtnClicked}
       />
-      {/* { <Box className="fixedPanel">
-        <Button
-          sx={{ borderRadius: "20px", fontSize: "16px", fontWeight: 700 }}
-          variant="outlined"
-        >
-          Cancel
-        </Button>
-      </Box>} */}
-      <Box
-        className="fixedPanel"
-        // sx={
-        //   !evaluateBtnClicked
-        //     ? {}
-        //     : { display: "flex", justifyContent: "flex-end" }
-        // }
-      >
-        {/* {!evaluateBtnClicked && ( */}
+      <Box className="fixedPanel">
         <Button
           onClick={evaluateWithAIBtn}
           style={{
@@ -111,15 +95,15 @@ const CreatePerformanceGoal = () => {
           <AutoAwesomeIcon fontSize="small" /> &nbsp;
           <strong>Evaluate with AI</strong>
         </Button>
-        {/* )} */}
         <Box sx={{ display: "flex", gap: "15px" }}>
           <Button
-            onClick={handleSubmit}
             disabled={!evaluateBtnClicked}
+            onClick={handleSubmit}
             style={{
-              border: "1px solid #003F72",
               borderRadius: "20px",
               padding: "10px 30px",
+              background: "#003F72",
+              color: "white",
             }}
             variant="contained"
           >

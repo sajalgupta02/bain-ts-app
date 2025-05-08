@@ -17,12 +17,17 @@ import {
   SMART_SCORE,
   WEIGHT,
 } from "../reusables/textData";
+import PublishSuccess from "./PublishSuccess";
+import ManagerFeedback from "./ManagerFeedback";
 
 const GoalDashboard = () => {
   const [activeStep, setActiveStep] = useState(0);
   const [openEvaluateGoalDialog, setOpenEvaluateGoalDialog] = useState(false);
   const [isPublishBtnClicked, setIsPublishBtnClicked] = useState(false);
   const [publishToSFActive, setPublishToSFActive] = useState(false);
+  const [isPublishSuccessFul, setIsPublishSuccessFul] = useState(false);
+  const [isManagerFeedbackAvailable, setIsManagerFeedbackAvailable] =
+    useState(false);
 
   const [goals, setGoals] = useState([
     { score: 7, weight: 20 },
@@ -104,6 +109,14 @@ const GoalDashboard = () => {
             >
               {PUBLISH_TO_SF}
             </Button>
+            {/* this button will be showed only when everything is marked OK from SF side. */}
+            {/* <Button
+              className={`smartScoreBtn btnCss smartScoreBtnOn100`}
+              onClick={publishToSF}
+              variant="outlined"
+            >
+              <AutoAwesomeIcon fontSize="small" /> &nbsp; Training Recommendations
+            </Button> */}
           </Box>
         </Box>
         <Box
@@ -151,6 +164,8 @@ const GoalDashboard = () => {
             </Box>
           </Box>
         </Box>
+        {isPublishSuccessFul && <PublishSuccess />}
+        {isManagerFeedbackAvailable && <ManagerFeedback />}
         <GoalsAccordion goals={goals} setGoals={setGoals} />
       </Box>
       {openEvaluateGoalDialog && (

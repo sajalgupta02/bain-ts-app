@@ -189,23 +189,18 @@ export default function CreateGoalFromLibrary() {
           </Button>
         )}
         <Box sx={{ display: "flex", gap: "15px" }}>
-          {/* {activeStep !== 0 && ( */}
-          {activeStep === 2 && (
+          {activeStep >= 1 && (
             <Button
               disabled={!evaluateBtnClicked}
               onClick={handleSubmit}
               style={{
-                border: "1px solid #003F72",
                 borderRadius: "20px",
                 padding: "10px 30px",
+                background: "#003F72",
               }}
               variant="contained"
             >
-              <strong>
-                {/* {activeStep === 1 ? "Proceed" : activeStep === 2 ? "Save" : ""} */}
-                {/* {activeStep === 2 ? "Save" : ""} */}
-                Save
-              </strong>
+              <strong>Save</strong>
             </Button>
           )}
           <Button
@@ -222,59 +217,6 @@ export default function CreateGoalFromLibrary() {
           </Button>
         </Box>
       </Box>
-      {/* <Box
-        className="cancelBtnCreateGoal1"
-        sx={
-          activeStep !== 0 && !evaluateBtnClicked
-            ? {}
-            : { display: "flex", justifyContent: "flex-end" }
-        }
-      >
-        {activeStep !== 0 && !evaluateBtnClicked && (
-          <Button
-            onClick={evaluateWithAIBtn}
-            style={{
-              borderRadius: "20px",
-              color: "white",
-              padding: "10px 30px",
-              background:
-                "linear-gradient(121deg, #00009D 4.2%, #390D8F 31.49%, #922569 62.22%)",
-            }}
-          >
-            <AutoAwesomeIcon fontSize="small" /> &nbsp;
-            <strong>Evaluate with AI</strong>
-          </Button>
-        )}
-        <Box sx={{ display: "flex", gap: "15px" }}>
-          {activeStep !== 0 && (
-            <Button
-              onClick={handleSubmit}
-              style={{
-                border: "1px solid #003F72",
-                borderRadius: "20px",
-                padding: "10px 30px",
-              }}
-              variant="contained"
-            >
-              <strong>
-                {activeStep === 1 ? "Proceed" : activeStep === 2 ? "Save" : ""}
-              </strong>
-            </Button>
-          )}
-          <Button
-            onClick={navigateHome}
-            style={{
-              border: "1px solid #003F72",
-              borderRadius: "20px",
-              background: "white",
-              color: "#003F72",
-              padding: "10px 30px",
-            }}
-          >
-            <strong>Cancel</strong>
-          </Button>
-        </Box>
-      </Box> */}
     </Box>
   );
 }

@@ -131,14 +131,6 @@ export default function CreateGoalFromPlan() {
           />
         )}
       </Box>
-      {/* {activeStep === 0 && <Box className="fixedPanel">
-        <Button
-          sx={{ borderRadius: "20px", fontSize: "16px", fontWeight: 700 }}
-          variant="outlined"
-        >
-          Cancel
-        </Button>
-      </Box>} */}
       <Box
         className="fixedPanel"
         sx={
@@ -163,21 +155,18 @@ export default function CreateGoalFromPlan() {
           </Button>
         )}
         <Box sx={{ display: "flex", gap: "15px" }}>
-          {/* {activeStep !== 0 && ( */}
-          {activeStep === 2 && (
+          {activeStep >= 1 && (
             <Button
               onClick={handleSubmit}
               style={{
-                border: "1px solid #003F72",
                 borderRadius: "20px",
                 padding: "10px 30px",
+                background: "#003F72",
               }}
               variant="contained"
+              disabled={!evaluateBtnClicked}
             >
-              <strong>
-                {/* {activeStep === 1 ? "Proceed" : activeStep === 2 ? "Save" : ""} */}
-                Save
-              </strong>
+              <strong>Save</strong>
             </Button>
           )}
           <Button

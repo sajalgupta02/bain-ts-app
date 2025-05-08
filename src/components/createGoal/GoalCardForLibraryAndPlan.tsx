@@ -1,4 +1,4 @@
-import { Typography, Card, CardContent } from "@mui/material";
+import { Typography, Card, CardContent, Box } from "@mui/material";
 
 type Props = {
   setActiveStep: React.Dispatch<React.SetStateAction<number>>;
@@ -30,7 +30,6 @@ const GoalCardForLibraryCreationGoal = ({
   setFormData,
   setMilestones,
 }: Props) => {
-  
   const singleCardClicked = () => {
     setActiveStep(1);
     setFormData((prev) => ({
@@ -45,10 +44,11 @@ const GoalCardForLibraryCreationGoal = ({
   return (
     <Card
       onClick={singleCardClicked}
+      className="hoverOnCard"
       variant="outlined"
       sx={{
         borderRadius: 2,
-        width: "450px",
+        width: "49%",
         cursor: "pointer",
         overflowX: "auto",
       }}
@@ -57,12 +57,22 @@ const GoalCardForLibraryCreationGoal = ({
         <Typography variant="h5" mt={1} fontWeight="bold">
           Goal name examples
         </Typography>
-        <Typography mt={1} sx={{ color: "#003F72", fontWeight: 700 }}>
-          Measure of success: &nbsp; xxxxxxxxxxx
-        </Typography>
-        <Typography mt={1} sx={{ color: "#003F72", fontWeight: 700 }}>
-          Target: &nbsp; xxxxxxxxxxxxxxx
-        </Typography>
+        <Box sx={{ display: "flex" }}>
+          <Typography mt={1} sx={{ color: "#003F72", fontWeight: 700 }}>
+            Measure of success: &nbsp;
+          </Typography>
+          <Typography mt={1} sx={{ color: "#003F72" }}>
+            xxxxxxxxxxxxxxxxxxxx...
+          </Typography>
+        </Box>
+        <Box sx={{ display: "flex" }}>
+          <Typography mt={1} sx={{ color: "#003F72", fontWeight: 700 }}>
+            Target: &nbsp;
+          </Typography>
+          <Typography mt={1} sx={{ color: "#003F72" }}>
+            xxxxxxxxxxxxxxxxxxxx...
+          </Typography>
+        </Box>
       </CardContent>
     </Card>
   );

@@ -20,6 +20,7 @@ import {
   AutoAwesome as AutoAwesomeIcon,
 } from "@mui/icons-material";
 import { format, parse } from "date-fns";
+import AcceptAndCancelSugg from "./AcceptAndCancelSugg";
 
 type formProps = {
   category: string;
@@ -171,37 +172,7 @@ export default function GoalCreateOrEditForm({
             error={!!errors.goalName}
             helperText={errors.goalName}
           />
-          {evaluateBtnClicked && (
-            <Box
-              sx={{
-                background: "white",
-                fontSize: "24px",
-                color: "#5F1EA3",
-                marginTop: "0",
-                borderTop: "none",
-                padding: "10px",
-                backgroundColor: "#F3EDFF",
-              }}
-            >
-              <Typography fontWeight={900}>
-                <AutoAwesomeIcon fontSize="small" /> &nbsp; KRA Assistant
-              </Typography>
-              <Typography fontWeight={500}>
-                The score is based on lorem ipsum dolor sit amet consectetur
-                adipiscing elit. Quisque faucibus ex sapien vitae pellentesque
-                sem placerat. Please see the detailed suggestions below and make
-                edits.
-              </Typography>
-              <Box display={"flex"} gap={2} justifyContent={"flex-end"}>
-                <Button style={{ borderRadius: "20px" }} variant="contained">
-                  Accept Suggestion
-                </Button>
-                <Button style={{ borderRadius: "20px" }} variant="outlined">
-                  Cancel
-                </Button>
-              </Box>
-            </Box>
-          )}
+          {evaluateBtnClicked && <AcceptAndCancelSugg />}
           <Typography
             variant="caption"
             color="text.secondary"
@@ -226,37 +197,7 @@ export default function GoalCreateOrEditForm({
             error={!!errors.measureOfSuccess}
             helperText={errors.measureOfSuccess}
           />
-          {evaluateBtnClicked && (
-            <Box
-              sx={{
-                background: "white",
-                fontSize: "24px",
-                color: "#5F1EA3",
-                marginTop: "0",
-                borderTop: "none",
-                padding: "10px",
-                backgroundColor: "#F3EDFF",
-              }}
-            >
-              <Typography fontWeight={900}>
-                <AutoAwesomeIcon fontSize="small" /> &nbsp; KRA Assistant
-              </Typography>
-              <Typography fontWeight={500}>
-                The score is based on lorem ipsum dolor sit amet consectetur
-                adipiscing elit. Quisque faucibus ex sapien vitae pellentesque
-                sem placerat. Please see the detailed suggestions below and make
-                edits.
-              </Typography>
-              <Box display={"flex"} gap={2} justifyContent={"flex-end"}>
-                <Button style={{ borderRadius: "20px" }} variant="contained">
-                  Accept Suggestion
-                </Button>
-                <Button style={{ borderRadius: "20px" }} variant="outlined">
-                  Cancel
-                </Button>
-              </Box>
-            </Box>
-          )}
+          {evaluateBtnClicked && <AcceptAndCancelSugg />}
           <Typography
             variant="caption"
             color="text.secondary"
