@@ -35,14 +35,14 @@
 
 .fixedPanel {
   position: fixed;
-  bottom: 10px;
-  left: 15%;
+  bottom: 3px;
+  left: 10%;
   border: 1px solid;
-  width: 1400px;
+  width: 80%;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   border-radius: 20px;
   background: white;
-  max-height: 50px;
+  max-height: 60px;
   padding: 10px;
 }

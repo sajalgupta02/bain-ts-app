@@ -5,12 +5,24 @@ import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
 import GoalsAccordion from "./GoalsAccordion";
 import { useNavigate } from "react-router-dom";
 import ReusableStepper from "./ReusableStepper";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import EvaluateSmartScoreDialog from "./dialogs/EvaluateSmartScoreDialog";
+import { getIndianFinancialYearDates } from "../reusables/utils";
+import {
+  CREATE_GOAL,
+  NOT_PUBLISHED,
+  OVERALL_SMART_SCORE,
+  PUBLISH_TO_SF,
+  PUBLISHED,
+  SMART_SCORE,
+  WEIGHT,
+} from "../reusables/textData";
 
 const GoalDashboard = () => {
   const [activeStep, setActiveStep] = useState(0);
-  const [evaluateBtnClicked, setEvaluateBtnClicked] = useState(false);
+  const [openEvaluateGoalDialog, setOpenEvaluateGoalDialog] = useState(false);
+  const [isPublishBtnClicked, setIsPublishBtnClicked] = useState(false);
+  const [publishToSFActive, setPublishToSFActive] = useState(false);
 
   const [goals, setGoals] = useState([
     { score: 7, weight: 20 },
@@ -22,12 +34,19 @@ const GoalDashboard = () => {
   let navigate = useNavigate();
 
   const navigateToCreateGoal = () => {
-    navigate("/createGoal");
+    navigate("/createGoal", { state: { goalsData: goals } });
   };
+
+  const handlePublishToggle = useCallback(
+    (newValue: boolean) => {
+      setIsPublishBtnClicked(newValue);
+    },
+    [] // Empty dependency array (setter is stable)
+  );
 
   const evaluateSmartScore = () => {
     setActiveStep(1);
-    setEvaluateBtnClicked(true);
+    setOpenEvaluateGoalDialog(true);
   };
 
   const publishToSF = () => {
@@ -35,6 +54,9 @@ const GoalDashboard = () => {
   };
 
   const totalWeight = goals.reduce((sum, goal) => sum + goal.weight, 0);
+  const { startDate, endDate } = getIndianFinancialYearDates();
+  const currentYear = new Date().getFullYear();
+  const nextYear = currentYear + 1;
 
   return (
     <>
@@ -48,10 +70,10 @@ const GoalDashboard = () => {
         >
           <Box>
             <Typography className="heading">
-              Individual Goals 2024 - 25
+              Individual Goals {currentYear} - {nextYear}
             </Typography>
             <Typography className="headingDate">
-              1 Apr 2024 - 31 Mar 2025
+              {startDate} - {endDate}
             </Typography>
           </Box>
 
@@ -61,7 +83,7 @@ const GoalDashboard = () => {
               variant="contained"
               onClick={navigateToCreateGoal}
             >
-              Create Goal
+              {CREATE_GOAL}
             </Button>
             <Button
               disabled={totalWeight !== 100}
@@ -72,15 +94,15 @@ const GoalDashboard = () => {
                   : "smartScoreBtnNotOn100"
               }`}
             >
-              <AutoAwesomeIcon fontSize="small" /> &nbsp; Evaluate overall SMART
-              score
+              <AutoAwesomeIcon fontSize="small" /> &nbsp; {SMART_SCORE}
             </Button>
             <Button
+              disabled={!publishToSFActive}
               onClick={publishToSF}
               className="publishBtn btnCss"
               variant="outlined"
             >
-              Publish to Success Factors
+              {PUBLISH_TO_SF}
             </Button>
           </Box>
         </Box>
@@ -106,22 +128,22 @@ const GoalDashboard = () => {
             <Typography className="verticalLine" />
             <Typography className="goalStatus">
               <span className="circleGoal">4</span>
-              <span>Not Published </span>
+              <span>{NOT_PUBLISHED}</span>
             </Typography>
             <Typography className="goalStatus">
               <span className="circleGoal">0</span>
-              <span>Published </span>
+              <span>{PUBLISHED}</span>
             </Typography>
           </Box>
           <Box display="flex" gap={"20px"}>
             <Typography className="goalStatus">
               <span className="percentage">{totalWeight}%</span>
-              <span>Weight (Total) </span>
+              <span>{WEIGHT} </span>
             </Typography>
             <Box className="goalStatus" sx={{ marginTop: "4px" }}>
               <span className="percentage">- -</span>
               <span>
-                Overall SMART Score &nbsp;
+                {OVERALL_SMART_SCORE} &nbsp;
                 <Tooltip title="This score is only available when total weight is 100%">
                   <InfoOutlinedIcon fontSize="small" color="action" />
                 </Tooltip>
@@ -131,10 +153,14 @@ const GoalDashboard = () => {
         </Box>
         <GoalsAccordion goals={goals} setGoals={setGoals} />
       </Box>
-      {evaluateBtnClicked && (
+      {openEvaluateGoalDialog && (
         <EvaluateSmartScoreDialog
-          evaluateBtnClicked={evaluateBtnClicked}
-          setEvaluateBtnClicked={setEvaluateBtnClicked}
+          openEvaluateGoalDialog={openEvaluateGoalDialog}
+          setOpenEvaluateGoalDialog={setOpenEvaluateGoalDialog}
+          isPublishBtnClicked={isPublishBtnClicked}
+          setIsPublishBtnClicked={handlePublishToggle}
+          publishToSFActive={publishToSFActive}
+          setPublishToSFActive={setPublishToSFActive}
         />
       )}
     </>

@@ -6,20 +6,23 @@ const GoalCard = ({
   title,
   description,
   color,
+  // goalsData,
 }: {
   icon: React.ReactElement;
   title: string;
   description: string;
   color: string;
+  // goalsData: Array<{ score: number; weight: number }>;
 }) => {
   const navigate = useNavigate();
 
   const navigateToSelectedOption = () => {
     if (title === "Create from Scratch") {
+      // navigate("/createGoal/createPerformanceGoal", {state: { goalsData: goalsData }});
       navigate("/createGoal/createPerformanceGoal");
     } else if (title === "Create from Library") {
       navigate("/createGoal/createFromLibrary");
-    } else{
+    } else {
       navigate("/createGoal/createFromPlan");
     }
   };

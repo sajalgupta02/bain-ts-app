@@ -7,20 +7,24 @@ import StepperDisplaySection from "./StepperDisplaySection";
 import { AutoAwesome as AutoAwesomeIcon } from "@mui/icons-material";
 import GoalCreateOrEditForm from "../GoalCreateOrEditForm";
 import { useNavigate } from "react-router-dom";
-
-
+import {
+  getIndianFinancialYearDates,
+  validateFormData,
+} from "../../../reusables/utils";
 
 export default function CreateGoalFromPlan() {
   let navigate = useNavigate();
   const steps = ["Choose Goal", "Modify", "Evaluate & Save"];
+  const { startDate, endDate } = getIndianFinancialYearDates();
+
   const [activeStep, setActiveStep] = React.useState(0);
   const [formData, setFormData] = React.useState({
     category: "Functional and Financial",
     goalName: "",
     measureOfSuccess: "",
-    weight: 0,
-    startDate: "1 Apr 2024",
-    endDate: "31 Mar 2025",
+    weight: 5,
+    startDate: startDate,
+    endDate: endDate,
     target: "",
   });
 
@@ -50,6 +54,16 @@ export default function CreateGoalFromPlan() {
 
   const navigateHome = () => {
     navigate("/");
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const errors = validateFormData(formData);
+    if (Object.keys(errors).length > 0) {
+      setErrors(errors);
+      return;
+    }
+    console.log("Form submitted:", { ...formData, milestones });
   };
 
   return (
@@ -126,14 +140,14 @@ export default function CreateGoalFromPlan() {
         </Button>
       </Box>} */}
       <Box
-        className="cancelBtnCreateGoal1"
+        className="fixedPanel"
         sx={
-          activeStep !== 0 && !evaluateBtnClicked
+          activeStep !== 0
             ? {}
             : { display: "flex", justifyContent: "flex-end" }
         }
       >
-        {activeStep !== 0 && !evaluateBtnClicked && (
+        {activeStep !== 0 && (
           <Button
             onClick={evaluateWithAIBtn}
             style={{
@@ -149,9 +163,10 @@ export default function CreateGoalFromPlan() {
           </Button>
         )}
         <Box sx={{ display: "flex", gap: "15px" }}>
-          {activeStep !== 0 && (
+          {/* {activeStep !== 0 && ( */}
+          {activeStep === 2 && (
             <Button
-              // onClick={handleSubmit}
+              onClick={handleSubmit}
               style={{
                 border: "1px solid #003F72",
                 borderRadius: "20px",
@@ -160,7 +175,8 @@ export default function CreateGoalFromPlan() {
               variant="contained"
             >
               <strong>
-                {activeStep === 1 ? "Proceed" : activeStep === 2 ? "Save" : ""}
+                {/* {activeStep === 1 ? "Proceed" : activeStep === 2 ? "Save" : ""} */}
+                Save
               </strong>
             </Button>
           )}

@@ -61,8 +61,6 @@ export default function GoalCreateOrEditForm({
   evaluateBtnClicked,
   setEvaluateBtnClicked,
 }: GoalProps) {
-
-
   // Date formatting utilities
   const parseDisplayDate = (dateStr: string) => {
     return parse(dateStr, "d MMM yyyy", new Date());
@@ -225,6 +223,8 @@ export default function GoalCreateOrEditForm({
             onChange={(e) =>
               setFormData({ ...formData, measureOfSuccess: e.target.value })
             }
+            error={!!errors.measureOfSuccess}
+            helperText={errors.measureOfSuccess}
           />
           {evaluateBtnClicked && (
             <Box
@@ -278,9 +278,13 @@ export default function GoalCreateOrEditForm({
             onChange={(e) =>
               setFormData({ ...formData, weight: Number(e.target.value) })
             }
+            inputProps={{
+              step: "0.1",
+              min: 5,
+              max: 25,
+            }}
             InputProps={{
               endAdornment: <InputAdornment position="end">%</InputAdornment>,
-              inputProps: { min: 0, max: 100 },
             }}
             error={!!errors.weight}
             helperText={errors.weight}
@@ -350,6 +354,8 @@ export default function GoalCreateOrEditForm({
               setFormData({ ...formData, target: e.target.value })
             }
             sx={{ mb: 1 }}
+            error={!!errors.target}
+            helperText={errors.target}
           />
           <Typography
             variant="caption"

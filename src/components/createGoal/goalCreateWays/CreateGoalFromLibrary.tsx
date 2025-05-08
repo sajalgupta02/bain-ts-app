@@ -7,20 +7,23 @@ import StepperDisplaySection from "./StepperDisplaySection";
 import { useNavigate } from "react-router-dom";
 import { AutoAwesome as AutoAwesomeIcon } from "@mui/icons-material";
 import GoalCreateOrEditForm from "../GoalCreateOrEditForm";
-
-
+import {
+  getIndianFinancialYearDates,
+  validateFormData,
+} from "../../../reusables/utils";
 
 export default function CreateGoalFromLibrary() {
   let navigate = useNavigate();
   const steps = ["Choose Template", "Modify", "Evaluate & Save"];
   const [activeStep, setActiveStep] = React.useState(0);
+  const { startDate, endDate } = getIndianFinancialYearDates();
   const [formData, setFormData] = React.useState({
     category: "Functional and Financial",
     goalName: "",
     measureOfSuccess: "",
-    weight: 0,
-    startDate: "1 Apr 2024",
-    endDate: "31 Mar 2025",
+    weight: 5,
+    startDate: startDate,
+    endDate: endDate,
     target: "",
   });
 
@@ -50,6 +53,16 @@ export default function CreateGoalFromLibrary() {
 
   const navigateHome = () => {
     navigate("/");
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const errors = validateFormData(formData);
+    if (Object.keys(errors).length > 0) {
+      setErrors(errors);
+      return;
+    }
+    console.log("Form submitted:", { ...formData, milestones });
   };
 
   return (
@@ -152,15 +165,64 @@ export default function CreateGoalFromLibrary() {
           />
         )}
       </Box>
-      {/* <Box className="fixedPanel">
-        <Button
-          sx={{ borderRadius: "20px", fontSize: "16px", fontWeight: 700 }}
-          variant="outlined"
-        >
-          Cancel
-        </Button>
-      </Box> */}
       <Box
+        className="fixedPanel"
+        sx={
+          activeStep !== 0
+            ? {}
+            : { display: "flex", justifyContent: "flex-end" }
+        }
+      >
+        {activeStep !== 0 && (
+          <Button
+            onClick={evaluateWithAIBtn}
+            style={{
+              borderRadius: "20px",
+              color: "white",
+              padding: "10px 30px",
+              background:
+                "linear-gradient(121deg, #00009D 4.2%, #390D8F 31.49%, #922569 62.22%)",
+            }}
+          >
+            <AutoAwesomeIcon fontSize="small" /> &nbsp;
+            <strong>Evaluate with AI</strong>
+          </Button>
+        )}
+        <Box sx={{ display: "flex", gap: "15px" }}>
+          {/* {activeStep !== 0 && ( */}
+          {activeStep === 2 && (
+            <Button
+              disabled={!evaluateBtnClicked}
+              onClick={handleSubmit}
+              style={{
+                border: "1px solid #003F72",
+                borderRadius: "20px",
+                padding: "10px 30px",
+              }}
+              variant="contained"
+            >
+              <strong>
+                {/* {activeStep === 1 ? "Proceed" : activeStep === 2 ? "Save" : ""} */}
+                {/* {activeStep === 2 ? "Save" : ""} */}
+                Save
+              </strong>
+            </Button>
+          )}
+          <Button
+            onClick={navigateHome}
+            style={{
+              border: "1px solid #003F72",
+              borderRadius: "20px",
+              background: "white",
+              color: "#003F72",
+              padding: "10px 30px",
+            }}
+          >
+            <strong>Cancel</strong>
+          </Button>
+        </Box>
+      </Box>
+      {/* <Box
         className="cancelBtnCreateGoal1"
         sx={
           activeStep !== 0 && !evaluateBtnClicked
@@ -186,7 +248,7 @@ export default function CreateGoalFromLibrary() {
         <Box sx={{ display: "flex", gap: "15px" }}>
           {activeStep !== 0 && (
             <Button
-              // onClick={handleSubmit}
+              onClick={handleSubmit}
               style={{
                 border: "1px solid #003F72",
                 borderRadius: "20px",
@@ -212,7 +274,7 @@ export default function CreateGoalFromLibrary() {
             <strong>Cancel</strong>
           </Button>
         </Box>
-      </Box>
+      </Box> */}
     </Box>
   );
 }

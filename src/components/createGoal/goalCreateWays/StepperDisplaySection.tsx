@@ -8,7 +8,7 @@ export default function StepperDisplaySection({
   steps: string[];
 }) {
   return (
-    <Stepper nonLinear activeStep={activeStep} alternativeLabel>
+    <Stepper  activeStep={activeStep} alternativeLabel>
       {steps.map((label) => (
         <Step key={label}>
           <StepLabel

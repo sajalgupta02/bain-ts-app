@@ -35,12 +35,9 @@ const GoalCardForLibraryCreationGoal = ({
     setActiveStep(1);
     setFormData((prev) => ({
       ...prev,
-      goalName: "Goal name",
-      measureOfSuccess: "Measure of success",
-      weight: 0,
-      startDate: "1 Apr 2024",
-      endDate: "31 Mar 2025",
-      target: "Target",
+      goalName: "Goal name for library/plan",
+      measureOfSuccess: "Measure of success for library/plan",
+      target: "Target for library/plan",
     }));
     setMilestones([]);
   };

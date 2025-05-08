@@ -3,17 +3,25 @@ import { Box, Button } from "@mui/material";
 import "../style.css";
 import GoalCreateOrEditForm from "../GoalCreateOrEditForm";
 import { AutoAwesome as AutoAwesomeIcon } from "@mui/icons-material";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import {
+  getIndianFinancialYearDates,
+  validateFormData,
+} from "../../../reusables/utils";
 
 const CreatePerformanceGoal = () => {
   let navigate = useNavigate();
+  // const { state } = useLocation();
+  // const { goalsData } = state;
+  const { startDate, endDate } = getIndianFinancialYearDates();
+
   const [formData, setFormData] = useState({
     category: "Functional and Financial",
     goalName: "",
     measureOfSuccess: "",
-    weight: 0,
-    startDate: "1 Apr 2024",
-    endDate: "31 Mar 2025",
+    weight: 5,
+    startDate: startDate,
+    endDate: endDate,
     target: "",
   });
 
@@ -36,24 +44,14 @@ const CreatePerformanceGoal = () => {
     "Operational Excellence",
   ];
 
-  // Validation
-  const validate = () => {
-    const newErrors: Record<string, string> = {};
-    if (!formData.goalName) newErrors.goalName = "Goal name is required";
-    if (formData.weight <= 0)
-      newErrors.weight = "Weight must be greater than 0";
-    if (!formData.startDate) newErrors.startDate = "Start date is required";
-    if (!formData.endDate) newErrors.endDate = "End date is required";
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (validate()) {
-      console.log("Form submitted:", { ...formData, milestones });
-      // Submit logic here
+    const errors = validateFormData(formData);
+    if (Object.keys(errors).length > 0) {
+      setErrors(errors);
+      return;
     }
+    console.log("Form submitted:", { ...formData, milestones });
   };
 
   const navigateHome = () => {
@@ -83,32 +81,41 @@ const CreatePerformanceGoal = () => {
         evaluateBtnClicked={evaluateBtnClicked}
         setEvaluateBtnClicked={setEvaluateBtnClicked}
       />
+      {/* { <Box className="fixedPanel">
+        <Button
+          sx={{ borderRadius: "20px", fontSize: "16px", fontWeight: 700 }}
+          variant="outlined"
+        >
+          Cancel
+        </Button>
+      </Box>} */}
       <Box
-        className="cancelBtnCreateGoal1"
-        sx={
-          !evaluateBtnClicked
-            ? {}
-            : { display: "flex", justifyContent: "flex-end" }
-        }
+        className="fixedPanel"
+        // sx={
+        //   !evaluateBtnClicked
+        //     ? {}
+        //     : { display: "flex", justifyContent: "flex-end" }
+        // }
       >
-        {!evaluateBtnClicked && (
-          <Button
-            onClick={evaluateWithAIBtn}
-            style={{
-              borderRadius: "20px",
-              color: "white",
-              padding: "10px 30px",
-              background:
-                "linear-gradient(121deg, #00009D 4.2%, #390D8F 31.49%, #922569 62.22%)",
-            }}
-          >
-            <AutoAwesomeIcon fontSize="small" /> &nbsp;
-            <strong>Evaluate with AI</strong>
-          </Button>
-        )}
+        {/* {!evaluateBtnClicked && ( */}
+        <Button
+          onClick={evaluateWithAIBtn}
+          style={{
+            borderRadius: "20px",
+            color: "white",
+            padding: "10px 30px",
+            background:
+              "linear-gradient(121deg, #00009D 4.2%, #390D8F 31.49%, #922569 62.22%)",
+          }}
+        >
+          <AutoAwesomeIcon fontSize="small" /> &nbsp;
+          <strong>Evaluate with AI</strong>
+        </Button>
+        {/* )} */}
         <Box sx={{ display: "flex", gap: "15px" }}>
           <Button
             onClick={handleSubmit}
+            disabled={!evaluateBtnClicked}
             style={{
               border: "1px solid #003F72",
               borderRadius: "20px",

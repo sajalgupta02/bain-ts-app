@@ -30,11 +30,7 @@ export default function ReusableStepper({
   return (
     <Box className="test">
       <span style={{ fontSize: "24px", maxWidth: "81px" }}>Overall Steps</span>
-      <Stepper
-        nonLinear
-        activeStep={activeStep}
-        connector={<ReusableConnector />}
-      >
+      <Stepper activeStep={activeStep} connector={<ReusableConnector />}>
         {steps.map((label) => (
           <Step
             style={{ display: "flex", fontSize: "28px", gap: "5px" }}

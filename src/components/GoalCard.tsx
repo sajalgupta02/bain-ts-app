@@ -1,4 +1,5 @@
 import { Box, Typography, Card, CardContent } from "@mui/material";
+import { DUE_DATE, SMART_SCORE_TEXT } from "../reusables/textData";
 
 interface GoalCardProps {
   score: number;
@@ -74,7 +75,7 @@ const GoalCard = ({ score, weight, index, setGoals, goals }: GoalCardProps) => (
         Goal name examples
       </Typography>
       <Typography variant="body2" mt={1} color="#858585">
-        Due Date: 31 Mar 2025
+        {DUE_DATE} 31 Mar 2025
       </Typography>
       <Box
         mt={1}
@@ -83,7 +84,7 @@ const GoalCard = ({ score, weight, index, setGoals, goals }: GoalCardProps) => (
         alignItems={"center"}
       >
         <Box display={"flex"}>
-          <Typography color="#858585">SMART Score:</Typography> &nbsp;
+          <Typography color="#858585">{SMART_SCORE_TEXT}</Typography> &nbsp;
           <Typography style={{ color: score >= 8 ? "green" : "orange" }}>
             {score}/10
           </Typography>
