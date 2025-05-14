@@ -47,6 +47,16 @@
   padding: 10px;
 }
 
-.hoverOnCard:hover{
+.hoverOnCard:hover {
   background: #c7fcec;
+}
+
+.saveBtn {
+  border-radius: 20px !important;
+  padding: 10px 30px !important;
+  color: white !important;
+}
+
+.saveBtnBg {
+  background: #003f72 !important;
 }

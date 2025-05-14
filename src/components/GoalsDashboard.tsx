@@ -19,15 +19,21 @@ import {
 } from "../reusables/textData";
 import PublishSuccess from "./PublishSuccess";
 import ManagerFeedback from "./ManagerFeedback";
+import RecommendTrainingsDialog from "./dialogs/RecommendTrainingsDialog";
 
 const GoalDashboard = () => {
   const [activeStep, setActiveStep] = useState(0);
   const [openEvaluateGoalDialog, setOpenEvaluateGoalDialog] = useState(false);
-  const [isPublishBtnClicked, setIsPublishBtnClicked] = useState(false);
-  const [publishToSFActive, setPublishToSFActive] = useState(false);
-  const [isPublishSuccessFul, setIsPublishSuccessFul] = useState(false);
-  const [isManagerFeedbackAvailable, setIsManagerFeedbackAvailable] =
+  const [
+    openTrainingRecommendationDialog,
+    setOpenTrainingRecommendationDialog,
+  ] = useState(false);
+  const [isPublishAnywayBtnClicked, setIsPublishAnywayBtnClicked] =
     useState(false);
+  const [publishToSFActiveBtn, setPublishToSFActiveBtn] = useState(false);
+  // const [isPublishSuccessFul, setIsPublishSuccessFul] = useState(false);
+  // const [isManagerFeedbackAvailable, setIsManagerFeedbackAvailable] =
+  //   useState(false);
 
   const [goals, setGoals] = useState([
     { score: 7, weight: 20 },
@@ -44,7 +50,7 @@ const GoalDashboard = () => {
 
   const handlePublishToggle = useCallback(
     (newValue: boolean) => {
-      setIsPublishBtnClicked(newValue);
+      setIsPublishAnywayBtnClicked(newValue);
     },
     [] // Empty dependency array (setter is stable)
   );
@@ -52,10 +58,13 @@ const GoalDashboard = () => {
   const evaluateSmartScore = () => {
     setActiveStep(1);
     setOpenEvaluateGoalDialog(true);
+    setIsPublishAnywayBtnClicked(false);
+    setPublishToSFActiveBtn(false);
   };
 
   const publishToSF = () => {
     setActiveStep(2);
+    setPublishToSFActiveBtn(false);
   };
 
   const totalWeight = goals.reduce((sum, goal) => sum + goal.weight, 0);
@@ -102,7 +111,7 @@ const GoalDashboard = () => {
               <AutoAwesomeIcon fontSize="small" /> &nbsp; {SMART_SCORE}
             </Button>
             <Button
-              disabled={!publishToSFActive}
+              // disabled={!publishToSFActiveBtn}
               onClick={publishToSF}
               className="publishBtn btnCss"
               variant="outlined"
@@ -164,18 +173,26 @@ const GoalDashboard = () => {
             </Box>
           </Box>
         </Box>
-        {isPublishSuccessFul && <PublishSuccess />}
-        {isManagerFeedbackAvailable && <ManagerFeedback />}
+        {/* {isPublishSuccessFul && <PublishSuccess />} */}
+        {/* {isManagerFeedbackAvailable && <ManagerFeedback />} */}
         <GoalsAccordion goals={goals} setGoals={setGoals} />
       </Box>
       {openEvaluateGoalDialog && (
         <EvaluateSmartScoreDialog
           openEvaluateGoalDialog={openEvaluateGoalDialog}
           setOpenEvaluateGoalDialog={setOpenEvaluateGoalDialog}
-          isPublishBtnClicked={isPublishBtnClicked}
-          setIsPublishBtnClicked={handlePublishToggle}
-          publishToSFActive={publishToSFActive}
-          setPublishToSFActive={setPublishToSFActive}
+          isPublishAnywayBtnClicked={isPublishAnywayBtnClicked}
+          setIsPublishAnywayBtnClicked={handlePublishToggle}
+          publishToSFActiveBtn={publishToSFActiveBtn}
+          setPublishToSFActiveBtn={setPublishToSFActiveBtn}
+        />
+      )}
+      {openTrainingRecommendationDialog && (
+        <RecommendTrainingsDialog
+          openTrainingRecommendationDialog={openTrainingRecommendationDialog}
+          setOpenTrainingRecommendationDialog={
+            setOpenTrainingRecommendationDialog
+          }
         />
       )}
     </>

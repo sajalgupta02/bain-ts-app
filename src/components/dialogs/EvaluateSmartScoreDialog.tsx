@@ -22,40 +22,47 @@ import {
 function EvaluateSmartScoreDialog({
   openEvaluateGoalDialog,
   setOpenEvaluateGoalDialog,
-  isPublishBtnClicked,
-  setIsPublishBtnClicked,
-  publishToSFActive,
-  setPublishToSFActive,
+  isPublishAnywayBtnClicked,
+  setIsPublishAnywayBtnClicked,
+  publishToSFActiveBtn,
+  setPublishToSFActiveBtn,
 }: {
   openEvaluateGoalDialog: boolean;
   setOpenEvaluateGoalDialog: React.Dispatch<React.SetStateAction<boolean>>;
-  isPublishBtnClicked: boolean;
-  setIsPublishBtnClicked: (value: boolean) => void;
-  publishToSFActive: boolean;
-  setPublishToSFActive: React.Dispatch<React.SetStateAction<boolean>>;
+  isPublishAnywayBtnClicked: boolean;
+  setIsPublishAnywayBtnClicked: (value: boolean) => void;
+  publishToSFActiveBtn: boolean;
+  setPublishToSFActiveBtn: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const navigate = useNavigate();
   const [isApiREsp, setIsApiResp] = React.useState(false);
 
+  // React.useEffect(() => {
+  //   setIsPublishBtnClicked(false);
+  //   setTimeout(() => {
+  //     setIsApiResp(true);
+  //   }, 2000);
+  // }, [setIsPublishBtnClicked]);
+
   React.useEffect(() => {
-    setIsPublishBtnClicked(false);
+    // setIsPublishBtnClicked(false);
     setTimeout(() => {
       setIsApiResp(true);
     }, 2000);
-  }, [setIsPublishBtnClicked]);
+  }, []);
 
   const handleClose = () => {
     setOpenEvaluateGoalDialog(false);
     navigate("/");
   };
 
-  const handlePublish = () => {
-    setIsPublishBtnClicked(true);
+  const handlePublishAnway = () => {
+    setIsPublishAnywayBtnClicked(true);
   };
 
   const handleAISUggestions = () => {
     setOpenEvaluateGoalDialog(false);
-    setPublishToSFActive(true);
+    setPublishToSFActiveBtn(true);
     navigate("/");
   };
 
@@ -80,7 +87,7 @@ function EvaluateSmartScoreDialog({
         {PUBLISH_GOALS_TO_SF}
       </DialogTitle>
       <DialogContent>
-        {isPublishBtnClicked ? (
+        {isPublishAnywayBtnClicked ? (
           <>{THANK_YOU_FOR_PUBLISHING}</>
         ) : isApiREsp ? (
           <KRAApiRespTable />
@@ -90,7 +97,7 @@ function EvaluateSmartScoreDialog({
       </DialogContent>
       {isApiREsp && (
         <DialogActions>
-          {isPublishBtnClicked ? (
+          {isPublishAnywayBtnClicked ? (
             <Box
               display={"flex"}
               gap={2}
@@ -154,7 +161,7 @@ function EvaluateSmartScoreDialog({
                     fontWeight: 700,
                   }}
                   variant="outlined"
-                  onClick={handlePublish}
+                  onClick={handlePublishAnway}
                 >
                   {PUBLISH_ANYWAY}
                 </Button>

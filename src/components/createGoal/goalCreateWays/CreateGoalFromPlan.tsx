@@ -1,7 +1,7 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import { Button, TextField } from "@mui/material";
+import { Button, MenuItem, TextField } from "@mui/material";
 import GoalsDisplaySection from "./GoalsDisplaySection";
 import StepperDisplaySection from "./StepperDisplaySection";
 import { AutoAwesome as AutoAwesomeIcon } from "@mui/icons-material";
@@ -37,6 +37,16 @@ export default function CreateGoalFromPlan() {
     }>
   >([]);
 
+  const [acceptSugg, setAcceptSugg] = React.useState({
+    goalNameSugg: "",
+    measureOfSuccessSugg: "",
+  });
+
+  const [showSuggBox, setShowSuggBox] = React.useState({
+    goalNameBox: true,
+    measureOfSuccessBox: true,
+  });
+
   const [evaluateBtnClicked, setEvaluateBtnClicked] = React.useState(false);
 
   const [errors, setErrors] = React.useState<Record<string, string>>({});
@@ -50,6 +60,10 @@ export default function CreateGoalFromPlan() {
   const evaluateWithAIBtn = () => {
     setEvaluateBtnClicked(true);
     setActiveStep(2);
+    setAcceptSugg({
+      goalNameSugg: "test goal",
+      measureOfSuccessSugg: "test measure success",
+    });
   };
 
   const navigateHome = () => {
@@ -94,15 +108,25 @@ export default function CreateGoalFromPlan() {
                   variant="subtitle1"
                   sx={{ mb: 1, fontWeight: "bold" }}
                 >
-                  Goal Plan
+                  Goal Plan *
                 </Typography>
                 <TextField
+                  select
                   fullWidth
                   variant="outlined"
                   size="small"
-                  sx={{ mb: 3, pointerEvents: "none" }}
-                  value={"Individual Goals 2023-24"}
-                ></TextField>
+                  sx={{ mb: 3 }}
+                  value={formData.category}
+                  onChange={(e) =>
+                    setFormData({ ...formData, category: e.target.value })
+                  }
+                >
+                  {categories.map((option) => (
+                    <MenuItem key={option} value={option}>
+                      {option}
+                    </MenuItem>
+                  ))}
+                </TextField>
               </Box>
             </Box>
             <Box sx={{ mt: 3 }}>
@@ -128,6 +152,9 @@ export default function CreateGoalFromPlan() {
             categories={categories}
             evaluateBtnClicked={evaluateBtnClicked}
             setEvaluateBtnClicked={setEvaluateBtnClicked}
+            acceptSugg={acceptSugg}
+            showSuggBox={showSuggBox}
+            setShowSuggBox={setShowSuggBox}
           />
         )}
       </Box>
@@ -158,11 +185,7 @@ export default function CreateGoalFromPlan() {
           {activeStep >= 1 && (
             <Button
               onClick={handleSubmit}
-              style={{
-                borderRadius: "20px",
-                padding: "10px 30px",
-                background: "#003F72",
-              }}
+              className={`saveBtn ${evaluateBtnClicked && "saveBtnBg"}`}
               variant="contained"
               disabled={!evaluateBtnClicked}
             >

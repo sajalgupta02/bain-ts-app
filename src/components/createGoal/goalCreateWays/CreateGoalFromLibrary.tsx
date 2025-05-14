@@ -36,6 +36,16 @@ export default function CreateGoalFromLibrary() {
     }>
   >([]);
 
+  const [acceptSugg, setAcceptSugg] = React.useState({
+    goalNameSugg: "",
+    measureOfSuccessSugg: "",
+  });
+
+  const [showSuggBox, setShowSuggBox] = React.useState({
+    goalNameBox: true,
+    measureOfSuccessBox: true,
+  });
+
   const [evaluateBtnClicked, setEvaluateBtnClicked] = React.useState(false);
 
   const [errors, setErrors] = React.useState<Record<string, string>>({});
@@ -49,6 +59,10 @@ export default function CreateGoalFromLibrary() {
   const evaluateWithAIBtn = () => {
     setEvaluateBtnClicked(true);
     setActiveStep(2);
+    setAcceptSugg({
+      goalNameSugg: "test goal",
+      measureOfSuccessSugg: "test measure success",
+    });
   };
 
   const navigateHome = () => {
@@ -162,6 +176,9 @@ export default function CreateGoalFromLibrary() {
             categories={categories}
             evaluateBtnClicked={evaluateBtnClicked}
             setEvaluateBtnClicked={setEvaluateBtnClicked}
+            acceptSugg={acceptSugg}
+            showSuggBox={showSuggBox} 
+            setShowSuggBox={setShowSuggBox}
           />
         )}
       </Box>
@@ -193,11 +210,7 @@ export default function CreateGoalFromLibrary() {
             <Button
               disabled={!evaluateBtnClicked}
               onClick={handleSubmit}
-              style={{
-                borderRadius: "20px",
-                padding: "10px 30px",
-                background: "#003F72",
-              }}
+              className={`saveBtn ${evaluateBtnClicked && "saveBtnBg"}`}
               variant="contained"
             >
               <strong>Save</strong>

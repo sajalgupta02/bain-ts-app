@@ -39,6 +39,16 @@ type milestoneProps = {
   achievementDate: string;
 };
 
+type acceptSuggProps = {
+  goalNameSugg: string;
+  measureOfSuccessSugg: string;
+};
+
+type showSuggProps = {
+  goalNameBox: boolean;
+  measureOfSuccessBox: boolean;
+};
+
 type GoalProps = {
   formData: formProps;
   setFormData: React.Dispatch<React.SetStateAction<formProps>>;
@@ -49,6 +59,9 @@ type GoalProps = {
   categories: string[];
   evaluateBtnClicked: boolean;
   setEvaluateBtnClicked: React.Dispatch<React.SetStateAction<boolean>>;
+  acceptSugg: acceptSuggProps;
+  showSuggBox: showSuggProps;
+  setShowSuggBox: React.Dispatch<React.SetStateAction<showSuggProps>>;
 };
 
 export default function GoalCreateOrEditForm({
@@ -61,6 +74,9 @@ export default function GoalCreateOrEditForm({
   categories,
   evaluateBtnClicked,
   setEvaluateBtnClicked,
+  acceptSugg,
+  showSuggBox,
+  setShowSuggBox,
 }: GoalProps) {
   // Date formatting utilities
   const parseDisplayDate = (dateStr: string) => {
@@ -172,7 +188,16 @@ export default function GoalCreateOrEditForm({
             error={!!errors.goalName}
             helperText={errors.goalName}
           />
-          {evaluateBtnClicked && <AcceptAndCancelSugg />}
+          {evaluateBtnClicked && showSuggBox.goalNameBox && (
+            <AcceptAndCancelSugg
+              acceptSugg={acceptSugg}
+              type="goalName"
+              setFormData={setFormData}
+              formData={formData}
+              settingSuggBox={setShowSuggBox}
+              showingSuggBox={showSuggBox}
+            />
+          )}
           <Typography
             variant="caption"
             color="text.secondary"
@@ -197,7 +222,16 @@ export default function GoalCreateOrEditForm({
             error={!!errors.measureOfSuccess}
             helperText={errors.measureOfSuccess}
           />
-          {evaluateBtnClicked && <AcceptAndCancelSugg />}
+          {evaluateBtnClicked && showSuggBox.measureOfSuccessBox && (
+            <AcceptAndCancelSugg
+              acceptSugg={acceptSugg}
+              type="measureOfSuccess"
+              setFormData={setFormData}
+              formData={formData}
+              settingSuggBox={setShowSuggBox}
+              showingSuggBox={showSuggBox}
+            />
+          )}
           <Typography
             variant="caption"
             color="text.secondary"

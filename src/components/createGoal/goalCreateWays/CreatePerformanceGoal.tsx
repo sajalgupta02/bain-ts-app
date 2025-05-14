@@ -25,6 +25,16 @@ const CreatePerformanceGoal = () => {
     target: "",
   });
 
+  const [acceptSugg, setAcceptSugg] = useState({
+    goalNameSugg: "",
+    measureOfSuccessSugg: "",
+  });
+
+  const [showSuggBox, setShowSuggBox] = useState({
+    goalNameBox: true,
+    measureOfSuccessBox: true,
+  });
+
   const [milestones, setMilestones] = useState<
     Array<{
       id: string;
@@ -60,6 +70,19 @@ const CreatePerformanceGoal = () => {
 
   const evaluateWithAIBtn = () => {
     setEvaluateBtnClicked(true);
+    // const errors = validateFormData(formData);
+    // if (Object.keys(errors).length > 0) {
+    //   setErrors(errors);
+    //   return;
+    // }
+    setAcceptSugg({
+      goalNameSugg: "test goal",
+      measureOfSuccessSugg: "test measure success",
+    });
+    setShowSuggBox({
+      goalNameBox: true,
+      measureOfSuccessBox: true,
+    });
   };
 
   return (
@@ -80,6 +103,9 @@ const CreatePerformanceGoal = () => {
         categories={categories}
         evaluateBtnClicked={evaluateBtnClicked}
         setEvaluateBtnClicked={setEvaluateBtnClicked}
+        acceptSugg={acceptSugg}
+        showSuggBox={showSuggBox} 
+        setShowSuggBox={setShowSuggBox}
       />
       <Box className="fixedPanel">
         <Button
@@ -99,12 +125,7 @@ const CreatePerformanceGoal = () => {
           <Button
             disabled={!evaluateBtnClicked}
             onClick={handleSubmit}
-            style={{
-              borderRadius: "20px",
-              padding: "10px 30px",
-              background: "#003F72",
-              color: "white",
-            }}
+            className={`saveBtn ${evaluateBtnClicked && "saveBtnBg"}`}
             variant="contained"
           >
             <strong>Save</strong>
@@ -128,3 +149,6 @@ const CreatePerformanceGoal = () => {
 };
 
 export default CreatePerformanceGoal;
+
+// client side validations for evaluate with ai button
+// goal plan also should have dropdown
