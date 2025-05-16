@@ -5,7 +5,7 @@ import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
 import GoalsAccordion from "./GoalsAccordion";
 import { useNavigate } from "react-router-dom";
 import ReusableStepper from "./ReusableStepper";
-import { useCallback, useState } from "react";
+import {  useState } from "react";
 import EvaluateSmartScoreDialog from "./dialogs/EvaluateSmartScoreDialog";
 import { getIndianFinancialYearDates } from "../reusables/utils";
 import {
@@ -28,8 +28,10 @@ const GoalDashboard = () => {
     openTrainingRecommendationDialog,
     setOpenTrainingRecommendationDialog,
   ] = useState(false);
+
   const [isPublishAnywayBtnClicked, setIsPublishAnywayBtnClicked] =
     useState(false);
+
   const [publishToSFActiveBtn, setPublishToSFActiveBtn] = useState(false);
   // const [isPublishSuccessFul, setIsPublishSuccessFul] = useState(false);
   // const [isManagerFeedbackAvailable, setIsManagerFeedbackAvailable] =
@@ -48,12 +50,12 @@ const GoalDashboard = () => {
     navigate("/createGoal", { state: { goalsData: goals } });
   };
 
-  const handlePublishToggle = useCallback(
-    (newValue: boolean) => {
-      setIsPublishAnywayBtnClicked(newValue);
-    },
-    [] // Empty dependency array (setter is stable)
-  );
+  // const handlePublishToggle = useCallback(
+  //   (newValue: boolean) => {
+  //     setIsPublishAnywayBtnClicked(newValue);
+  //   },
+  //   [] // Empty dependency array (setter is stable)
+  // );
 
   const evaluateSmartScore = () => {
     setActiveStep(1);
@@ -102,7 +104,7 @@ const GoalDashboard = () => {
             <Button
               disabled={totalWeight !== 100}
               onClick={evaluateSmartScore}
-              className={`smartScoreBtn btnCss ${
+              className={`normalBtnCSS btnCss ${
                 totalWeight === 100
                   ? "smartScoreBtnOn100"
                   : "smartScoreBtnNotOn100"
@@ -111,9 +113,11 @@ const GoalDashboard = () => {
               <AutoAwesomeIcon fontSize="small" /> &nbsp; {SMART_SCORE}
             </Button>
             <Button
-              // disabled={!publishToSFActiveBtn}
+              disabled={!publishToSFActiveBtn}
               onClick={publishToSF}
-              className="publishBtn btnCss"
+              className={`normalBtnCSS btnCss ${
+                publishToSFActiveBtn ? "publishActiveBtn" : "publishDisableBtn"
+              }`}
               variant="outlined"
             >
               {PUBLISH_TO_SF}
@@ -182,7 +186,7 @@ const GoalDashboard = () => {
           openEvaluateGoalDialog={openEvaluateGoalDialog}
           setOpenEvaluateGoalDialog={setOpenEvaluateGoalDialog}
           isPublishAnywayBtnClicked={isPublishAnywayBtnClicked}
-          setIsPublishAnywayBtnClicked={handlePublishToggle}
+          setIsPublishAnywayBtnClicked={setIsPublishAnywayBtnClicked}
           publishToSFActiveBtn={publishToSFActiveBtn}
           setPublishToSFActiveBtn={setPublishToSFActiveBtn}
         />

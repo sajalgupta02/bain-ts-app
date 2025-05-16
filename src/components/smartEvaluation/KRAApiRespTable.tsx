@@ -16,17 +16,53 @@ function createData(
   goalName: string,
   measureOfSuccess: string,
   smartScore: string,
-  weight: number
+  weight: string,
+  isNew: boolean
 ) {
-  return { id, goalName, measureOfSuccess, smartScore, weight };
+  return { id, goalName, measureOfSuccess, smartScore, weight, isNew };
 }
 
 const rows = [
-  createData(1, "Goal Name Example", "Example measure of success", "8/10", 5),
-  createData(2, "Goal Name Example", "Example measure of success", "8/10", 5),
-  createData(3, "Goal Name Example", "Example measure of success", "8/10", 5),
-  createData(4, "Goal Name Example", "Example measure of success", "8/10", 5),
-  createData(5, "Goal Name Example", "Example measure of success", "8/10", 5),
+  createData(
+    1,
+    "Goal Name Example",
+    "Example measure of success",
+    "8/10",
+    "5",
+    false
+  ),
+  createData(
+    2,
+    "Goal Name Example",
+    "Example measure of success",
+    "8/10",
+    "5",
+    false
+  ),
+  createData(
+    3,
+    "Goal Name Example",
+    "Example measure of success",
+    "8/10",
+    "5",
+    false
+  ),
+  createData(
+    4,
+    "Goal Name Example",
+    "Example measure of success",
+    "8/10",
+    "-",
+    true
+  ),
+  createData(
+    5,
+    "Goal Name Example",
+    "Example measure of success",
+    "8/10",
+    "-",
+    true
+  ),
 ];
 
 export default function KRAApiRespTable() {
@@ -88,14 +124,26 @@ export default function KRAApiRespTable() {
             {rows.map((row) => (
               <TableRow
                 key={row.id}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                sx={row.isNew ? { background: "#f3edff" } : {}}
               >
-                <TableCell component="th" scope="row">
+                <TableCell
+                  sx={row.isNew ? { color: "#003f72" } : {}}
+                  component="th"
+                  scope="row"
+                >
                   {row.id}
                 </TableCell>
-                <TableCell sx={{ fontWeight: 700 }}>{row.goalName}</TableCell>
-                <TableCell>{row.measureOfSuccess}</TableCell>
-                <TableCell>{row.smartScore}</TableCell>
+                <TableCell
+                  sx={{ fontWeight: 700, color: row.isNew ? "#003f72" : "" }}
+                >
+                  {row.goalName}
+                </TableCell>
+                <TableCell sx={row.isNew ? { color: "#003f72" } : {}}>
+                  {row.measureOfSuccess}
+                </TableCell>
+                <TableCell sx={row.isNew ? { color: "#003f72" } : {}}>
+                  {row.smartScore}
+                </TableCell>
                 <TableCell>
                   <Box
                     sx={{

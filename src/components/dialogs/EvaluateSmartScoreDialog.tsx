@@ -53,6 +53,7 @@ function EvaluateSmartScoreDialog({
 
   const handleClose = () => {
     setOpenEvaluateGoalDialog(false);
+    setPublishToSFActiveBtn(false);
     navigate("/");
   };
 

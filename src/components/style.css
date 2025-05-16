@@ -40,7 +40,7 @@
   font-size: 24px;
 }
 
-.smartScoreBtn {
+.normalBtnCSS {
   border-radius: 10px !important;
   color: white !important;
 }
@@ -64,16 +64,18 @@
   );
 }
 
-.publishBtn {
-  border-radius: 10px !important;
-  opacity: 0.3;
+.publishActiveBtn {
   background: #003f72 !important;
-  color: white !important;
+}
+
+.publishDisableBtn {
+  opacity: 0.5;
+  background: #003f72 !important;
 }
 
 .createGoalBtn {
   border-radius: 10px !important;
-  background: var(--lt-blue, #003f72);
+  background: #003f72;
 }
 
 .heading {
