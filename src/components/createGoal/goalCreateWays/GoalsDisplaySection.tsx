@@ -1,43 +1,14 @@
 import { Box } from "@mui/material";
-import GoalCardForLibraryCreationGoal from "../GoalCardForLibraryAndPlan";
-
-const goals = [
-  { score: 7, weight: 5 },
-  { score: 8, weight: 20 },
-  { score: 7, weight: 5 },
-  { score: 8, weight: 20 },
-];
+import { MainContext } from "../../RootComp";
+import { useContext } from "react";
+import GoalCardForLibraryAndPlan from "../GoalCardForLibraryAndPlan";
 
 type Props = {
   setActiveStep: React.Dispatch<React.SetStateAction<number>>;
-  setFormData: React.Dispatch<
-    React.SetStateAction<{
-      category: string;
-      goalName: string;
-      measureOfSuccess: string;
-      weight: number;
-      startDate: string;
-      endDate: string;
-      target: string;
-    }>
-  >;
-  setMilestones: React.Dispatch<
-    React.SetStateAction<
-      {
-        id: string;
-        milestone: string;
-        plannedDate: string;
-        achievementDate: string;
-      }[]
-    >
-  >;
 };
 
-export default function GoalsDisplaySection({
-  setActiveStep,
-  setFormData,
-  setMilestones,
-}: Props) {
+export default function GoalsDisplaySection({ setActiveStep }: Props) {
+  const { goalsForLibraryAndPlan } = useContext(MainContext);
   return (
     <Box
       sx={{
@@ -47,13 +18,8 @@ export default function GoalsDisplaySection({
         justifyContent: "space-between",
       }}
     >
-      {goals.map((goal, index) => (
-        <GoalCardForLibraryCreationGoal
-          key={index}
-          setActiveStep={setActiveStep}
-          setFormData={setFormData}
-          setMilestones={setMilestones}
-        />
+      {goalsForLibraryAndPlan.map((goal: any, index: number) => (
+        <GoalCardForLibraryAndPlan key={index} setActiveStep={setActiveStep} />
       ))}
     </Box>
   );

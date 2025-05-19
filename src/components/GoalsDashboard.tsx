@@ -5,7 +5,7 @@ import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
 import GoalsAccordion from "./GoalsAccordion";
 import { useNavigate } from "react-router-dom";
 import ReusableStepper from "./ReusableStepper";
-import {  useState } from "react";
+import { useContext, useState } from "react";
 import EvaluateSmartScoreDialog from "./dialogs/EvaluateSmartScoreDialog";
 import { getIndianFinancialYearDates } from "../reusables/utils";
 import {
@@ -20,6 +20,7 @@ import {
 import PublishSuccess from "./PublishSuccess";
 import ManagerFeedback from "./ManagerFeedback";
 import RecommendTrainingsDialog from "./dialogs/RecommendTrainingsDialog";
+import { MainContext } from "./RootComp";
 
 const GoalDashboard = () => {
   const [activeStep, setActiveStep] = useState(0);
@@ -37,17 +38,13 @@ const GoalDashboard = () => {
   // const [isManagerFeedbackAvailable, setIsManagerFeedbackAvailable] =
   //   useState(false);
 
-  const [goals, setGoals] = useState([
-    { score: 7, weight: 20 },
-    { score: 8, weight: 20 },
-    { score: 9, weight: 30 },
-    { score: 8, weight: 30 },
-  ]);
+  const { goals } = useContext(MainContext);
 
   let navigate = useNavigate();
 
   const navigateToCreateGoal = () => {
-    navigate("/createGoal", { state: { goalsData: goals } });
+    // navigate("/createGoal", { state: { goalsData: goals } });
+    navigate("/createGoal");
   };
 
   // const handlePublishToggle = useCallback(
@@ -69,7 +66,10 @@ const GoalDashboard = () => {
     setPublishToSFActiveBtn(false);
   };
 
-  const totalWeight = goals.reduce((sum, goal) => sum + goal.weight, 0);
+  const totalWeight = goals.reduce(
+    (sum: any, goal: any) => sum + goal.weight,
+    0
+  );
   const { startDate, endDate } = getIndianFinancialYearDates();
   const currentYear = new Date().getFullYear();
   const nextYear = currentYear + 1;
@@ -179,7 +179,10 @@ const GoalDashboard = () => {
         </Box>
         {/* {isPublishSuccessFul && <PublishSuccess />} */}
         {/* {isManagerFeedbackAvailable && <ManagerFeedback />} */}
-        <GoalsAccordion goals={goals} setGoals={setGoals} />
+        {/* <GoalsAccordion goals={goals} setGoals={setGoals} /> */}
+        {goals.map((goalCategory: any) => {
+          return <GoalsAccordion goals = {goalCategory.goals} category={goalCategory.category} />;
+        })}
       </Box>
       {openEvaluateGoalDialog && (
         <EvaluateSmartScoreDialog

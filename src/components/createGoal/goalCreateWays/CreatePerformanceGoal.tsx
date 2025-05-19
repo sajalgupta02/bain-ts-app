@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Box, Button } from "@mui/material";
 import "../style.css";
 import GoalCreateOrEditForm from "../GoalCreateOrEditForm";
@@ -8,45 +8,46 @@ import {
   getIndianFinancialYearDates,
   validateFormData,
 } from "../../../reusables/utils";
+import { MainContext } from "../../RootComp";
 
 const CreatePerformanceGoal = () => {
   let navigate = useNavigate();
   // const { state } = useLocation();
   // const { goalsData } = state;
   const { startDate, endDate } = getIndianFinancialYearDates();
+  const {
+    goals,
+    setGoals,
+    formData,
+    setFormData,
+    acceptSugg,
+    setAcceptSugg,
+    showSuggBox,
+    setShowSuggBox,
+    milestones,
+    setMilestones,
+    evaluateBtnClicked,
+    setEvaluateBtnClicked,
+    errors,
+    setErrors,
+  } = useContext(MainContext);
 
-  const [formData, setFormData] = useState({
-    category: "Functional and Financial",
-    goalName: "",
-    measureOfSuccess: "",
-    weight: 5,
-    startDate: startDate,
-    endDate: endDate,
-    target: "",
-  });
-
-  const [acceptSugg, setAcceptSugg] = useState({
-    goalNameSugg: "",
-    measureOfSuccessSugg: "",
-  });
-
-  const [showSuggBox, setShowSuggBox] = useState({
-    goalNameBox: true,
-    measureOfSuccessBox: true,
-  });
-
-  const [milestones, setMilestones] = useState<
-    Array<{
-      id: string;
-      milestone: string;
-      plannedDate: string;
-      achievementDate: string;
-    }>
-  >([]);
-
-  const [evaluateBtnClicked, setEvaluateBtnClicked] = useState(false);
-
-  const [errors, setErrors] = useState<Record<string, string>>({});
+  useEffect(() => {
+    setFormData({
+      category: "Functional and Financial",
+      goalName: "",
+      measureOfSuccess: "",
+      weight: 5,
+      startDate: startDate,
+      endDate: endDate,
+      target: "",
+    });
+    setAcceptSugg({ goalNameSugg: "", measureOfSuccessSugg: "" });
+    setShowSuggBox({ goalNameBox: true, measureOfSuccessBox: true });
+    setMilestones([]);
+    setEvaluateBtnClicked(false);
+    setErrors({});
+  }, []);
 
   const categories = [
     "Functional and Financial",
@@ -61,7 +62,25 @@ const CreatePerformanceGoal = () => {
       setErrors(errors);
       return;
     }
-    console.log("Form submitted:", { ...formData, milestones });
+    // this portion needs to be replaced with actual api data
+    // const temp = [...goals, { score: 15, weight: 45 }];
+    // setGoals(temp);
+
+    const result = [];
+    for (let data of goals) {
+      if (data.category !== formData.category) {
+        result.push(data);
+      } else {
+        const updated = [...data.goals, { score: 15, weight: 45 }];
+        const payload = {
+          category: formData.category,
+          goals: updated,
+        };
+        result.push(payload);
+      }
+    }
+    setGoals(result);
+    navigateHome();
   };
 
   const navigateHome = () => {
@@ -93,7 +112,7 @@ const CreatePerformanceGoal = () => {
       }}
     >
       <Box className="goalCreationTitle"> Create Performance Goal</Box>
-      <GoalCreateOrEditForm
+      {/* <GoalCreateOrEditForm
         formData={formData}
         setFormData={setFormData}
         milestones={milestones}
@@ -104,9 +123,10 @@ const CreatePerformanceGoal = () => {
         evaluateBtnClicked={evaluateBtnClicked}
         setEvaluateBtnClicked={setEvaluateBtnClicked}
         acceptSugg={acceptSugg}
-        showSuggBox={showSuggBox} 
+        showSuggBox={showSuggBox}
         setShowSuggBox={setShowSuggBox}
-      />
+      /> */}
+      <GoalCreateOrEditForm categories={categories} />
       <Box className="fixedPanel">
         <Button
           onClick={evaluateWithAIBtn}

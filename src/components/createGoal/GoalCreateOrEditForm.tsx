@@ -21,6 +21,8 @@ import {
 } from "@mui/icons-material";
 import { format, parse } from "date-fns";
 import AcceptAndCancelSugg from "./AcceptAndCancelSugg";
+import { MainContext } from "../RootComp";
+import { useContext } from "react";
 
 type formProps = {
   category: string;
@@ -64,20 +66,23 @@ type GoalProps = {
   setShowSuggBox: React.Dispatch<React.SetStateAction<showSuggProps>>;
 };
 
-export default function GoalCreateOrEditForm({
-  formData,
-  setFormData,
-  milestones,
-  setMilestones,
-  errors,
-  setErrors,
-  categories,
-  evaluateBtnClicked,
-  setEvaluateBtnClicked,
-  acceptSugg,
-  showSuggBox,
-  setShowSuggBox,
-}: GoalProps) {
+export default function GoalCreateOrEditForm({categories}: {categories: string[]}) {
+  const {
+    goals,
+    setGoals,
+    formData,
+    setFormData,
+    acceptSugg,
+    setAcceptSugg,
+    showSuggBox,
+    setShowSuggBox,
+    milestones,
+    setMilestones,
+    evaluateBtnClicked,
+    setEvaluateBtnClicked,
+    errors,
+    setErrors,
+  } = useContext(MainContext);
   // Date formatting utilities
   const parseDisplayDate = (dateStr: string) => {
     return parse(dateStr, "d MMM yyyy", new Date());
@@ -101,12 +106,12 @@ export default function GoalCreateOrEditForm({
   };
 
   const handleDeleteMilestone = (id: string) => {
-    setMilestones(milestones.filter((m) => m.id !== id));
+    setMilestones(milestones.filter((m: any) => m.id !== id));
   };
 
   const handleMilestoneChange = (id: string, field: string, value: string) => {
     setMilestones(
-      milestones.map((m) => (m.id === id ? { ...m, [field]: value } : m))
+      milestones.map((m: any) => (m.id === id ? { ...m, [field]: value } : m))
     );
   };
 
@@ -362,7 +367,7 @@ export default function GoalCreateOrEditForm({
                     </TableCell>
                   </TableRow>
                 ) : (
-                  milestones.map((milestone) => (
+                  milestones.map((milestone: any) => (
                     <TableRow key={milestone.id}>
                       <TableCell>
                         <TextField

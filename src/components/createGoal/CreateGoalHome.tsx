@@ -54,7 +54,6 @@ const CreateGoalHome: React.FC = () => {
             title="Create from Scratch"
             description="Create a goal with a blank goal form."
             color="#d0f4de"
-            // goalsData={goalsData}
           />
 
           <GoalCard
@@ -79,7 +78,6 @@ const CreateGoalHome: React.FC = () => {
             title="Create from Library"
             description="Choose goals from your goal library and add to your goal plan."
             color="#fde2e4"
-            // goalsData={goalsData}
           />
 
           <GoalCard
@@ -100,7 +98,6 @@ const CreateGoalHome: React.FC = () => {
             title="Copy from Goal Plan"
             description="Create goals based on your previous goal plan."
             color="#d0f4de"
-            // goalsData={goalsData}
           />
         </Box>
       </Box>

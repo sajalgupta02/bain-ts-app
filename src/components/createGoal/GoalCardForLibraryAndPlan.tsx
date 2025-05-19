@@ -1,42 +1,21 @@
 import { Typography, Card, CardContent, Box } from "@mui/material";
+import { MainContext } from "../RootComp";
+import { useContext } from "react";
 
 type Props = {
   setActiveStep: React.Dispatch<React.SetStateAction<number>>;
-  setFormData: React.Dispatch<
-    React.SetStateAction<{
-      category: string;
-      goalName: string;
-      measureOfSuccess: string;
-      weight: number;
-      startDate: string;
-      endDate: string;
-      target: string;
-    }>
-  >;
-  setMilestones: React.Dispatch<
-    React.SetStateAction<
-      {
-        id: string;
-        milestone: string;
-        plannedDate: string;
-        achievementDate: string;
-      }[]
-    >
-  >;
 };
 
-const GoalCardForLibraryCreationGoal = ({
-  setActiveStep,
-  setFormData,
-  setMilestones,
-}: Props) => {
+const GoalCardForLibraryAndPlan = ({ setActiveStep }: Props) => {
+  const { setFormData, setMilestones } = useContext(MainContext);
+
   const singleCardClicked = () => {
     setActiveStep(1);
-    setFormData((prev) => ({
+    setFormData((prev: any) => ({
       ...prev,
-      goalName: "Goal name for library/plan",
-      measureOfSuccess: "Measure of success for library/plan",
-      target: "Target for library/plan",
+      goalName: "Goal name for plan",
+      measureOfSuccess: "Measure of success for plan",
+      target: "Target for plan",
     }));
     setMilestones([]);
   };
@@ -78,4 +57,4 @@ const GoalCardForLibraryCreationGoal = ({
   );
 };
 
-export default GoalCardForLibraryCreationGoal;
+export default GoalCardForLibraryAndPlan;

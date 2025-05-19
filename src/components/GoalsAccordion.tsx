@@ -44,25 +44,13 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
   padding: theme.spacing(2),
 }));
 
-type GoalsAccordionProps = {
-  goals: {
-    score: number;
-    weight: number;
-  }[];
-  setGoals: React.Dispatch<
-    React.SetStateAction<
-      {
-        score: number;
-        weight: number;
-      }[]
-    >
-  >;
-};
-
 export default function CustomizedAccordions({
   goals,
-  setGoals,
-}: GoalsAccordionProps) {
+  category,
+}: {
+  goals: any;
+  category: string;
+}) {
   const [expanded, setExpanded] = React.useState<string | false>("panel1");
 
   const handleChange =
@@ -77,19 +65,17 @@ export default function CustomizedAccordions({
     >
       <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
         <Typography component="span">
-          <strong>Functional and Financial</strong>
+          <strong>{category}</strong>
         </Typography>
       </AccordionSummary>
       <AccordionDetails>
         <Grid container spacing={2}>
-          {goals.map((goal, index) => (
+          {goals.map((goal: any, index: number) => (
             <GoalCard
               key={index}
-              score={goal.score}
-              weight={goal.weight}
               index={index}
-              setGoals={setGoals}
-              goals={goals}
+              category={category}
+              singleGoal={goal}
             />
           ))}
         </Grid>

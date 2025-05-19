@@ -11,50 +11,54 @@ import {
   getIndianFinancialYearDates,
   validateFormData,
 } from "../../../reusables/utils";
+import { MainContext } from "../../RootComp";
 
 export default function CreateGoalFromLibrary() {
   let navigate = useNavigate();
   const steps = ["Choose Template", "Modify", "Evaluate & Save"];
   const [activeStep, setActiveStep] = React.useState(0);
   const { startDate, endDate } = getIndianFinancialYearDates();
-  const [formData, setFormData] = React.useState({
-    category: "Functional and Financial",
-    goalName: "",
-    measureOfSuccess: "",
-    weight: 5,
-    startDate: startDate,
-    endDate: endDate,
-    target: "",
-  });
 
-  const [milestones, setMilestones] = React.useState<
-    Array<{
-      id: string;
-      milestone: string;
-      plannedDate: string;
-      achievementDate: string;
-    }>
-  >([]);
-
-  const [acceptSugg, setAcceptSugg] = React.useState({
-    goalNameSugg: "",
-    measureOfSuccessSugg: "",
-  });
-
-  const [showSuggBox, setShowSuggBox] = React.useState({
-    goalNameBox: true,
-    measureOfSuccessBox: true,
-  });
-
-  const [evaluateBtnClicked, setEvaluateBtnClicked] = React.useState(false);
-
-  const [errors, setErrors] = React.useState<Record<string, string>>({});
+  const {
+    goals,
+    setGoals,
+    formData,
+    setFormData,
+    acceptSugg,
+    setAcceptSugg,
+    showSuggBox,
+    setShowSuggBox,
+    milestones,
+    setMilestones,
+    evaluateBtnClicked,
+    setEvaluateBtnClicked,
+    errors,
+    setErrors,
+    setGoalsForLibraryAndPlan,
+  } = React.useContext(MainContext);
 
   const categories = [
     "Functional and Financial",
     "Learning and Growth",
     "Operational Excellence",
   ];
+
+  React.useEffect(() => {
+    setFormData({
+      category: "Functional and Financial",
+      goalName: "",
+      measureOfSuccess: "",
+      weight: 5,
+      startDate: startDate,
+      endDate: endDate,
+      target: "",
+    });
+    setAcceptSugg({ goalNameSugg: "", measureOfSuccessSugg: "" });
+    setShowSuggBox({ goalNameBox: true, measureOfSuccessBox: true });
+    setMilestones([]);
+    setEvaluateBtnClicked(false);
+    setErrors({});
+  }, []);
 
   const evaluateWithAIBtn = () => {
     setEvaluateBtnClicked(true);
@@ -157,30 +161,11 @@ export default function CreateGoalFromLibrary() {
               <Typography variant="h5" sx={{ mb: 2, fontWeight: "bold" }}>
                 Templates
               </Typography>
-              <GoalsDisplaySection
-                setActiveStep={setActiveStep}
-                setFormData={setFormData}
-                setMilestones={setMilestones}
-              />
+              <GoalsDisplaySection setActiveStep={setActiveStep} />
             </Box>
           </Box>
         )}
-        {activeStep !== 0 && (
-          <GoalCreateOrEditForm
-            formData={formData}
-            setFormData={setFormData}
-            milestones={milestones}
-            setMilestones={setMilestones}
-            errors={errors}
-            setErrors={setErrors}
-            categories={categories}
-            evaluateBtnClicked={evaluateBtnClicked}
-            setEvaluateBtnClicked={setEvaluateBtnClicked}
-            acceptSugg={acceptSugg}
-            showSuggBox={showSuggBox} 
-            setShowSuggBox={setShowSuggBox}
-          />
-        )}
+        {activeStep !== 0 && <GoalCreateOrEditForm categories={categories} />}
       </Box>
       <Box
         className="fixedPanel"

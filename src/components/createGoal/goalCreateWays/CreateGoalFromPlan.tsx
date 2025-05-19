@@ -11,45 +11,39 @@ import {
   getIndianFinancialYearDates,
   validateFormData,
 } from "../../../reusables/utils";
+import { MainContext } from "../../RootComp";
 
 export default function CreateGoalFromPlan() {
   let navigate = useNavigate();
+  const {
+    goals,
+    setGoals,
+    formData,
+    setFormData,
+    acceptSugg,
+    setAcceptSugg,
+    showSuggBox,
+    setShowSuggBox,
+    milestones,
+    setMilestones,
+    evaluateBtnClicked,
+    setEvaluateBtnClicked,
+    errors,
+    setErrors,
+    setGoalsForLibraryAndPlan,
+  } = React.useContext(MainContext);
+
   const steps = ["Choose Goal", "Modify", "Evaluate & Save"];
   const { startDate, endDate } = getIndianFinancialYearDates();
 
   const [activeStep, setActiveStep] = React.useState(0);
-  const [formData, setFormData] = React.useState({
-    category: "Functional and Financial",
-    goalName: "",
-    measureOfSuccess: "",
-    weight: 5,
-    startDate: startDate,
-    endDate: endDate,
-    target: "",
-  });
 
-  const [milestones, setMilestones] = React.useState<
-    Array<{
-      id: string;
-      milestone: string;
-      plannedDate: string;
-      achievementDate: string;
-    }>
-  >([]);
-
-  const [acceptSugg, setAcceptSugg] = React.useState({
-    goalNameSugg: "",
-    measureOfSuccessSugg: "",
-  });
-
-  const [showSuggBox, setShowSuggBox] = React.useState({
-    goalNameBox: true,
-    measureOfSuccessBox: true,
-  });
-
-  const [evaluateBtnClicked, setEvaluateBtnClicked] = React.useState(false);
-
-  const [errors, setErrors] = React.useState<Record<string, string>>({});
+  const [goalPlan, setGoalPlan] = React.useState("2025-26");
+  const [goalPlanCategories, setGoalPlanCategories] = React.useState([
+    "2025-26",
+    "2024-25",
+    "2023-24",
+  ]);
 
   const categories = [
     "Functional and Financial",
@@ -57,12 +51,51 @@ export default function CreateGoalFromPlan() {
     "Operational Excellence",
   ];
 
+  React.useEffect(() => {
+    setFormData({
+      category: "Functional and Financial",
+      goalName: "",
+      measureOfSuccess: "",
+      weight: 5,
+      startDate: startDate,
+      endDate: endDate,
+      target: "",
+    });
+    setAcceptSugg({ goalNameSugg: "", measureOfSuccessSugg: "" });
+    setShowSuggBox({ goalNameBox: true, measureOfSuccessBox: true });
+    setMilestones([]);
+    setEvaluateBtnClicked(false);
+    setErrors({});
+  }, []);
+
+  const onGoalPlanChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const updatedGoalPlan = e.target.value;
+    setGoalPlan(updatedGoalPlan);
+    if (updatedGoalPlan === "2025-26") {
+      setGoalsForLibraryAndPlan([
+        { score: 7, weight: 20 },
+        { score: 8, weight: 20 },
+        { score: 9, weight: 30 },
+        { score: 8, weight: 30 },
+        { score: 9, weight: 30 },
+        { score: 8, weight: 30 },
+      ]);
+    } else {
+      setGoalsForLibraryAndPlan([
+        { score: 7, weight: 20 },
+        { score: 8, weight: 20 },
+      ]);
+    }
+  };
+
   const evaluateWithAIBtn = () => {
     setEvaluateBtnClicked(true);
     setActiveStep(2);
     setAcceptSugg({
-      goalNameSugg: "test goal",
-      measureOfSuccessSugg: "test measure success",
+      goalNameSugg: "test goal from plan",
+      measureOfSuccessSugg: "test measure success from plan",
     });
   };
 
@@ -77,7 +110,22 @@ export default function CreateGoalFromPlan() {
       setErrors(errors);
       return;
     }
-    console.log("Form submitted:", { ...formData, milestones });
+    const result = [];
+    for (let data of goals) {
+      if (data.category !== formData.category) {
+        result.push(data);
+      } else {
+        const updated = [...data.goals, { score: 15, weight: 45 }];
+        const payload = {
+          category: formData.category,
+          goals: updated,
+        };
+        result.push(payload);
+      }
+    }
+    setGoals(result);
+    navigateHome();
+    // console.log("Form submitted:", { ...formData, milestones });
   };
 
   return (
@@ -116,12 +164,10 @@ export default function CreateGoalFromPlan() {
                   variant="outlined"
                   size="small"
                   sx={{ mb: 3 }}
-                  value={formData.category}
-                  onChange={(e) =>
-                    setFormData({ ...formData, category: e.target.value })
-                  }
+                  value={goalPlan}
+                  onChange={(e) => onGoalPlanChange(e)}
                 >
-                  {categories.map((option) => (
+                  {goalPlanCategories.map((option) => (
                     <MenuItem key={option} value={option}>
                       {option}
                     </MenuItem>
@@ -131,32 +177,13 @@ export default function CreateGoalFromPlan() {
             </Box>
             <Box sx={{ mt: 3 }}>
               <Typography variant="h5" sx={{ mb: 2, fontWeight: "bold" }}>
-                Individual Goals 2023-24
+                Individual Goals {goalPlan}
               </Typography>
-              <GoalsDisplaySection
-                setActiveStep={setActiveStep}
-                setFormData={setFormData}
-                setMilestones={setMilestones}
-              />
+              <GoalsDisplaySection setActiveStep={setActiveStep} />
             </Box>
           </Box>
         )}
-        {activeStep !== 0 && (
-          <GoalCreateOrEditForm
-            formData={formData}
-            setFormData={setFormData}
-            milestones={milestones}
-            setMilestones={setMilestones}
-            errors={errors}
-            setErrors={setErrors}
-            categories={categories}
-            evaluateBtnClicked={evaluateBtnClicked}
-            setEvaluateBtnClicked={setEvaluateBtnClicked}
-            acceptSugg={acceptSugg}
-            showSuggBox={showSuggBox}
-            setShowSuggBox={setShowSuggBox}
-          />
-        )}
+        {activeStep !== 0 && <GoalCreateOrEditForm categories={categories} />}
       </Box>
       <Box
         className="fixedPanel"
