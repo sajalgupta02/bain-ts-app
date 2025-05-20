@@ -38,7 +38,7 @@ export default function CreateGoalFromPlan() {
 
   const [activeStep, setActiveStep] = React.useState(0);
 
-  const [goalPlan, setGoalPlan] = React.useState("2025-26");
+  const [goalPlan, setGoalPlan] = React.useState("");
   const [goalPlanCategories, setGoalPlanCategories] = React.useState([
     "2025-26",
     "2024-25",
@@ -66,14 +66,12 @@ export default function CreateGoalFromPlan() {
     setMilestones([]);
     setEvaluateBtnClicked(false);
     setErrors({});
+    setGoalsForLibraryAndPlan([]);
   }, []);
 
-  const onGoalPlanChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const updatedGoalPlan = e.target.value;
-    setGoalPlan(updatedGoalPlan);
-    if (updatedGoalPlan === "2025-26") {
+  const onGoalPlanChange = (val: string) => {
+    setGoalPlan(val);
+    if (val === "2025-26") {
       setGoalsForLibraryAndPlan([
         { score: 7, weight: 20 },
         { score: 8, weight: 20 },
@@ -165,7 +163,7 @@ export default function CreateGoalFromPlan() {
                   size="small"
                   sx={{ mb: 3 }}
                   value={goalPlan}
-                  onChange={(e) => onGoalPlanChange(e)}
+                  onChange={(e) => onGoalPlanChange(e.target.value)}
                 >
                   {goalPlanCategories.map((option) => (
                     <MenuItem key={option} value={option}>
@@ -179,7 +177,9 @@ export default function CreateGoalFromPlan() {
               <Typography variant="h5" sx={{ mb: 2, fontWeight: "bold" }}>
                 Individual Goals {goalPlan}
               </Typography>
-              <GoalsDisplaySection setActiveStep={setActiveStep} />
+              {goalPlan && (
+                <GoalsDisplaySection setActiveStep={setActiveStep} />
+              )}
             </Box>
           </Box>
         )}

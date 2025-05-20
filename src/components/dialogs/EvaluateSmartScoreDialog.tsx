@@ -36,6 +36,9 @@ function EvaluateSmartScoreDialog({
 }) {
   const navigate = useNavigate();
   const [isApiREsp, setIsApiResp] = React.useState(false);
+  const [smartScore, setSmartScore] = React.useState(0);
+  const [btnMessage, setBtnMessage] = React.useState(PUBLISH_ANYWAY);
+  const threshold = 7;
 
   // React.useEffect(() => {
   //   setIsPublishBtnClicked(false);
@@ -48,6 +51,7 @@ function EvaluateSmartScoreDialog({
     // setIsPublishBtnClicked(false);
     setTimeout(() => {
       setIsApiResp(true);
+      setSmartScore(8); // Example score, replace with actual score from API response
     }, 2000);
   }, []);
 
@@ -62,9 +66,22 @@ function EvaluateSmartScoreDialog({
   };
 
   const handleAISUggestions = () => {
-    setOpenEvaluateGoalDialog(false);
+    // setOpenEvaluateGoalDialog(false);
     setPublishToSFActiveBtn(true);
-    navigate("/");
+    let tempScore = 7;
+    if(tempScore >= threshold){
+      setSmartScore(7);
+      setBtnMessage('Publish To SF')
+    }
+
+    // navigate("/");
+  };
+
+  const disablePublishAnyway = () => {
+    if (smartScore >= threshold) {
+      return false;
+    }
+    return true;
   };
 
   return (
@@ -91,7 +108,7 @@ function EvaluateSmartScoreDialog({
         {isPublishAnywayBtnClicked ? (
           <>{THANK_YOU_FOR_PUBLISHING}</>
         ) : isApiREsp ? (
-          <KRAApiRespTable />
+          <KRAApiRespTable score={smartScore} />
         ) : (
           <KRALoadingState />
         )}
@@ -163,8 +180,9 @@ function EvaluateSmartScoreDialog({
                   }}
                   variant="outlined"
                   onClick={handlePublishAnway}
+                  disabled={disablePublishAnyway()}
                 >
-                  {PUBLISH_ANYWAY}
+                  {btnMessage} 
                 </Button>
               </Box>
             </Box>

@@ -65,8 +65,7 @@ const rows = [
   ),
 ];
 
-export default function KRAApiRespTable() {
-  let score = 8; // Example score, replace with actual score from API response
+export default function KRAApiRespTable({ score }: { score: number }) {
   return (
     <>
       <Box

@@ -13,9 +13,9 @@ const GoalCardForLibraryAndPlan = ({ setActiveStep }: Props) => {
     setActiveStep(1);
     setFormData((prev: any) => ({
       ...prev,
-      goalName: "Goal name for plan",
-      measureOfSuccess: "Measure of success for plan",
-      target: "Target for plan",
+      goalName: "Goal name for library or plan",
+      measureOfSuccess: "Measure of success for library or plan",
+      target: "Target for library or plan",
     }));
     setMilestones([]);
   };

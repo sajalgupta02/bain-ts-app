@@ -22,7 +22,7 @@ function RootComp() {
       category: "Learning and Growth",
       goals: [
         { score: 7, weight: 20 },
-        { score: 8, weight: 20 },
+        { score: 8, weight: 10 },
       ],
     },
   ]);

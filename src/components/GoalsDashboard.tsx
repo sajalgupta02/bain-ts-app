@@ -66,10 +66,21 @@ const GoalDashboard = () => {
     setPublishToSFActiveBtn(false);
   };
 
-  const totalWeight = goals.reduce(
-    (sum: any, goal: any) => sum + goal.weight,
-    0
-  );
+  const totalWeight = () => {
+    let finalWeight = 0;
+    for (let goal of goals) {
+      let temp = goal.goals.reduce(
+        (initialSum: any, individualGoal: any) =>
+          initialSum + individualGoal.weight,
+        0
+      );
+      finalWeight += temp;
+    }
+    return finalWeight;
+  };
+
+  console.log(totalWeight());
+
   const { startDate, endDate } = getIndianFinancialYearDates();
   const currentYear = new Date().getFullYear();
   const nextYear = currentYear + 1;
@@ -102,10 +113,10 @@ const GoalDashboard = () => {
               {CREATE_GOAL}
             </Button>
             <Button
-              disabled={totalWeight !== 100}
+              disabled={totalWeight() !== 100}
               onClick={evaluateSmartScore}
               className={`normalBtnCSS btnCss ${
-                totalWeight === 100
+                totalWeight() === 100
                   ? "smartScoreBtnOn100"
                   : "smartScoreBtnNotOn100"
               }`}
@@ -163,7 +174,7 @@ const GoalDashboard = () => {
           </Box>
           <Box display="flex" gap={"20px"}>
             <Typography className="goalStatus">
-              <span className="percentage">{totalWeight}%</span>
+              <span className="percentage">{totalWeight()}%</span>
               <span>{WEIGHT} </span>
             </Typography>
             <Box className="goalStatus" sx={{ marginTop: "4px" }}>
@@ -181,7 +192,12 @@ const GoalDashboard = () => {
         {/* {isManagerFeedbackAvailable && <ManagerFeedback />} */}
         {/* <GoalsAccordion goals={goals} setGoals={setGoals} /> */}
         {goals.map((goalCategory: any) => {
-          return <GoalsAccordion goals = {goalCategory.goals} category={goalCategory.category} />;
+          return (
+            <GoalsAccordion
+              goals={goalCategory.goals}
+              category={goalCategory.category}
+            />
+          );
         })}
       </Box>
       {openEvaluateGoalDialog && (

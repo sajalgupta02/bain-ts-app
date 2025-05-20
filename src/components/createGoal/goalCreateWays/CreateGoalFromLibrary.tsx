@@ -18,6 +18,14 @@ export default function CreateGoalFromLibrary() {
   const steps = ["Choose Template", "Modify", "Evaluate & Save"];
   const [activeStep, setActiveStep] = React.useState(0);
   const { startDate, endDate } = getIndianFinancialYearDates();
+  const [icList, setICList] = React.useState(["Buildings", "Factories"]);
+  const [categoryList, setCategoryList] = React.useState([
+    "Functional and Financial",
+    "Learning and Growth",
+    "Operational Excellence",
+  ]);
+  const [selectedIC, setSelectedIC] = React.useState("");
+  const [selectedCategory, setSelectedCategory] = React.useState("");
 
   const {
     goals,
@@ -58,7 +66,25 @@ export default function CreateGoalFromLibrary() {
     setMilestones([]);
     setEvaluateBtnClicked(false);
     setErrors({});
+    setGoalsForLibraryAndPlan([]);
   }, []);
+
+  React.useEffect(() => {
+    if (selectedIC && selectedCategory) {
+      setGoalsForLibraryAndPlan([
+        { score: 7, weight: 20 },
+        { score: 8, weight: 20 },
+      ]);
+    }
+  }, [selectedIC, selectedCategory]);
+
+  const onDropdownChange = (val: string, key: string) => {
+    if (key === "ic") {
+      setSelectedIC(val);
+    } else {
+      setSelectedCategory(val);
+    }
+  };
 
   const evaluateWithAIBtn = () => {
     setEvaluateBtnClicked(true);
@@ -111,7 +137,7 @@ export default function CreateGoalFromLibrary() {
                   variant="subtitle1"
                   sx={{ mb: 1, fontWeight: "bold" }}
                 >
-                  Category *
+                  IC *
                 </Typography>
                 <TextField
                   select
@@ -119,12 +145,10 @@ export default function CreateGoalFromLibrary() {
                   variant="outlined"
                   size="small"
                   sx={{ mb: 3 }}
-                  value={formData.category}
-                  onChange={(e) =>
-                    setFormData({ ...formData, category: e.target.value })
-                  }
+                  value={selectedIC}
+                  onChange={(e) => onDropdownChange(e.target.value, "ic")}
                 >
-                  {categories.map((option) => (
+                  {icList.map((option) => (
                     <MenuItem key={option} value={option}>
                       {option}
                     </MenuItem>
@@ -144,12 +168,10 @@ export default function CreateGoalFromLibrary() {
                   variant="outlined"
                   size="small"
                   sx={{ mb: 3 }}
-                  value={formData.category}
-                  onChange={(e) =>
-                    setFormData({ ...formData, category: e.target.value })
-                  }
+                  value={selectedCategory}
+                  onChange={(e) => onDropdownChange(e.target.value, "category")}
                 >
-                  {categories.map((option) => (
+                  {categoryList.map((option) => (
                     <MenuItem key={option} value={option}>
                       {option}
                     </MenuItem>
@@ -161,7 +183,9 @@ export default function CreateGoalFromLibrary() {
               <Typography variant="h5" sx={{ mb: 2, fontWeight: "bold" }}>
                 Templates
               </Typography>
-              <GoalsDisplaySection setActiveStep={setActiveStep} />
+              {selectedCategory && selectedIC && (
+                <GoalsDisplaySection setActiveStep={setActiveStep} />
+              )}
             </Box>
           </Box>
         )}
