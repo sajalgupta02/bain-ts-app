@@ -4,8 +4,8 @@ export default function PublishSuccess() {
   return (
     <Box sx={{ margin: "25px 0 0 220px", fontWeight: 700 }}>
       <Typography>
-        Thank you for publishing your goals to MyZone. You will be redirected to
-        MyZone to submit your goals to IS.
+        Thank you for publishing your goals to MyZone. Click on the below button
+        to redirect to MyZone to submit your goals to IS.
       </Typography>
       <Button
         sx={{

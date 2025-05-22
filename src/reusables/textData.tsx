@@ -1,7 +1,7 @@
 // Goals Dashboard
 export const CREATE_GOAL = "Create Goal";
 export const INDIVIDUAL_GOALS = "Individual Goals";
-export const SMART_SCORE = "Evaluate overall SMART score";
+export const SMART_SCORE = "Evaluate Goals";
 export const PUBLISH_TO_SF = "Publish to Success Factors";
 export const NOT_PUBLISHED = "Not Published";
 export const PUBLISHED = "Published";
@@ -21,5 +21,6 @@ export const THANK_YOU_FOR_PUBLISHING = "Thank you for publishing your goals to 
 export const OPEN_MY_ZONE = "Open My Zone";
 export const OK = "OK";
 export const CANCEL = "Cancel";
+export const CLOSE = "Close";
 export const APPLY_AI_SUGGESTIONS = "Apply AI Suggestions";
 export const PUBLISH_ANYWAY = "Publish Anyway";

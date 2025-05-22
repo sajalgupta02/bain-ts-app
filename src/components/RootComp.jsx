@@ -7,6 +7,101 @@ import { getIndianFinancialYearDates } from "../reusables/utils";
 
 export const MainContext = createContext();
 
+function createData(
+  id,
+  goalName,
+  measureOfSuccess,
+  smartScore,
+  weight,
+  isNew,
+  isSelected,
+  category
+) {
+  return {
+    id,
+    goalName,
+    measureOfSuccess,
+    smartScore,
+    weight,
+    isNew,
+    isSelected,
+    category,
+  };
+}
+
+const tableData = [
+  createData(
+    1,
+    "Goal Name Example",
+    "Example measure of success",
+    "8/10",
+    "5",
+    false,
+    true,
+    "Functional and Financial"
+  ),
+  createData(
+    2,
+    "Goal Name Example",
+    "Example measure of success",
+    "8/10",
+    "5",
+    false,
+    true,
+    "Learning and Growth"
+  ),
+  createData(
+    3,
+    "Goal Name Example",
+    "Example measure of success",
+    "8/10",
+    "5",
+    false,
+    true,
+    "Learning and Growth"
+  ),
+  createData(
+    4,
+    "Goal Name Example",
+    "Example measure of success",
+    "8/10",
+    "5",
+    false,
+    true,
+    "Learning and Growth"
+  ),
+  createData(
+    5,
+    "Goal Name Example",
+    "Example measure of success",
+    "8/10",
+    "5",
+    false,
+    true,
+    "Functional and Financial"
+  ),
+  createData(
+    6,
+    "Goal Name Example",
+    "Example measure of success",
+    "8/10",
+    "-",
+    false,
+    true,
+    "Functional and Financial"
+  ),
+  createData(
+    7,
+    "Goal Name Example",
+    "Example measure of success",
+    "8/10",
+    "-",
+    true,
+    true,
+    "Learning and Growth"
+  ),
+];
+
 function RootComp() {
   const { startDate, endDate } = getIndianFinancialYearDates();
   const [goals, setGoals] = useState([
@@ -59,6 +154,9 @@ function RootComp() {
   const [evaluateBtnClicked, setEvaluateBtnClicked] = useState(false);
 
   const [errors, setErrors] = useState({});
+  const [overallSmartScore, setOverallSmartScore] = useState(0);
+  const [rows, setRows] = React.useState(tableData);
+  const threshold = 7;
 
   const value = {
     goals,
@@ -77,6 +175,12 @@ function RootComp() {
     setErrors,
     goalsForLibraryAndPlan,
     setGoalsForLibraryAndPlan,
+    overallSmartScore,
+    setOverallSmartScore,
+    threshold,
+    rows,
+    setRows,
+    tableData, // for testing purpose
   };
 
   return (

@@ -1,6 +1,7 @@
 import { AutoAwesome } from "@mui/icons-material";
 import {
   Box,
+  Checkbox,
   Paper,
   Table,
   TableBody,
@@ -10,62 +11,17 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
+import { useContext } from "react";
+import { MainContext } from "../RootComp";
 
-function createData(
-  id: number,
-  goalName: string,
-  measureOfSuccess: string,
-  smartScore: string,
-  weight: string,
-  isNew: boolean
-) {
-  return { id, goalName, measureOfSuccess, smartScore, weight, isNew };
-}
+export default function KRAApiRespTable() {
+  const { overallSmartScore, rows, setRows } = useContext(MainContext);
+  const updateRowCheckbox = (index: number) => {
+    const updatedRows = [...rows];
+    updatedRows[index].isSelected = !updatedRows[index].isSelected;
+    setRows(updatedRows);
+  };
 
-const rows = [
-  createData(
-    1,
-    "Goal Name Example",
-    "Example measure of success",
-    "8/10",
-    "5",
-    false
-  ),
-  createData(
-    2,
-    "Goal Name Example",
-    "Example measure of success",
-    "8/10",
-    "5",
-    false
-  ),
-  createData(
-    3,
-    "Goal Name Example",
-    "Example measure of success",
-    "8/10",
-    "5",
-    false
-  ),
-  createData(
-    4,
-    "Goal Name Example",
-    "Example measure of success",
-    "8/10",
-    "-",
-    true
-  ),
-  createData(
-    5,
-    "Goal Name Example",
-    "Example measure of success",
-    "8/10",
-    "-",
-    true
-  ),
-];
-
-export default function KRAApiRespTable({ score }: { score: number }) {
   return (
     <>
       <Box
@@ -87,9 +43,9 @@ export default function KRAApiRespTable({ score }: { score: number }) {
           <Typography fontWeight={700}>Overall SMART Score: &nbsp;</Typography>
           <Typography
             fontWeight={700}
-            style={{ color: score >= 8 ? "green" : "orange" }}
+            style={{ color: overallSmartScore >= 8 ? "green" : "orange" }}
           >
-            {score}/10
+            {overallSmartScore}/10
           </Typography>
         </Box>
         <Typography fontWeight={500}>
@@ -102,11 +58,15 @@ export default function KRAApiRespTable({ score }: { score: number }) {
         <Table sx={{ minWidth: 800 }} aria-label="simple table">
           <TableHead>
             <TableRow sx={{ background: "#eee9f3" }}>
+              <TableCell sx={{ color: "#003F72", fontWeight: 700 }} />
               <TableCell sx={{ color: "#003F72", fontWeight: 700 }}>
                 #
               </TableCell>
               <TableCell sx={{ color: "#003F72", fontWeight: 700 }}>
                 Goal Name
+              </TableCell>
+              <TableCell sx={{ color: "#003F72", fontWeight: 700 }}>
+                Category
               </TableCell>
               <TableCell sx={{ color: "#003F72", fontWeight: 700 }}>
                 Measure of Success
@@ -120,11 +80,29 @@ export default function KRAApiRespTable({ score }: { score: number }) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
+            {rows.map((row: any, idx: any) => (
               <TableRow
                 key={row.id}
-                sx={row.isNew ? { background: "#f3edff" } : {}}
+                sx={
+                  row.isNew
+                    ? { background: "#f3edff", borderLeft: "5px solid #003f72" }
+                    : {}
+                }
               >
+                <TableCell
+                  sx={row.isNew ? { color: "#003f72" } : {}}
+                  component="th"
+                  scope="row"
+                >
+                  {row.isNew ? (
+                    <Checkbox
+                      checked={row.isSelected}
+                      onChange={() => updateRowCheckbox(idx)}
+                    />
+                  ) : (
+                    <Checkbox disabled checked />
+                  )}
+                </TableCell>
                 <TableCell
                   sx={row.isNew ? { color: "#003f72" } : {}}
                   component="th"
@@ -136,6 +114,9 @@ export default function KRAApiRespTable({ score }: { score: number }) {
                   sx={{ fontWeight: 700, color: row.isNew ? "#003f72" : "" }}
                 >
                   {row.goalName}
+                </TableCell>
+                <TableCell sx={{ color: row.isNew ? "#003f72" : "" }}>
+                  {row.category}
                 </TableCell>
                 <TableCell sx={row.isNew ? { color: "#003f72" } : {}}>
                   {row.measureOfSuccess}
@@ -150,6 +131,7 @@ export default function KRAApiRespTable({ score }: { score: number }) {
                       padding: "7px 10px",
                       borderRadius: "10px",
                       minWidth: "50px",
+                      textAlign: "center",
                     }}
                   >
                     {row.weight}

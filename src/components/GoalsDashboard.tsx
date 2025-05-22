@@ -30,15 +30,15 @@ const GoalDashboard = () => {
     setOpenTrainingRecommendationDialog,
   ] = useState(false);
 
-  const [isPublishAnywayBtnClicked, setIsPublishAnywayBtnClicked] =
-    useState(false);
+  // const [isPublishAnywayBtnClicked, setIsPublishAnywayBtnClicked] =
+  //   useState(false);
 
   const [publishToSFActiveBtn, setPublishToSFActiveBtn] = useState(false);
-  // const [isPublishSuccessFul, setIsPublishSuccessFul] = useState(false);
+  const [isPublishSuccessFul, setIsPublishSuccessFul] = useState(false);
   // const [isManagerFeedbackAvailable, setIsManagerFeedbackAvailable] =
   //   useState(false);
 
-  const { goals } = useContext(MainContext);
+  const { goals, overallSmartScore } = useContext(MainContext);
 
   let navigate = useNavigate();
 
@@ -57,13 +57,14 @@ const GoalDashboard = () => {
   const evaluateSmartScore = () => {
     setActiveStep(1);
     setOpenEvaluateGoalDialog(true);
-    setIsPublishAnywayBtnClicked(false);
+    // setIsPublishAnywayBtnClicked(false);
     setPublishToSFActiveBtn(false);
   };
 
   const publishToSF = () => {
     setActiveStep(2);
     setPublishToSFActiveBtn(false);
+    setIsPublishSuccessFul(true);
   };
 
   const totalWeight = () => {
@@ -79,7 +80,7 @@ const GoalDashboard = () => {
     return finalWeight;
   };
 
-  console.log(totalWeight());
+  // console.log(totalWeight());
 
   const { startDate, endDate } = getIndianFinancialYearDates();
   const currentYear = new Date().getFullYear();
@@ -113,13 +114,14 @@ const GoalDashboard = () => {
               {CREATE_GOAL}
             </Button>
             <Button
-              disabled={totalWeight() !== 100}
+              // disabled={totalWeight() !== 100}
               onClick={evaluateSmartScore}
-              className={`normalBtnCSS btnCss ${
-                totalWeight() === 100
-                  ? "smartScoreBtnOn100"
-                  : "smartScoreBtnNotOn100"
-              }`}
+              // className={`normalBtnCSS btnCss ${
+              //   totalWeight() === 100
+              //     ? "smartScoreBtnOn100"
+              //     : "smartScoreBtnNotOn100"
+              // }`}
+              className={`normalBtnCSS btnCss smartScoreBtnOn100`}
             >
               <AutoAwesomeIcon fontSize="small" /> &nbsp; {SMART_SCORE}
             </Button>
@@ -178,22 +180,25 @@ const GoalDashboard = () => {
               <span>{WEIGHT} </span>
             </Typography>
             <Box className="goalStatus" sx={{ marginTop: "4px" }}>
-              <span className="percentage">- -</span>
+              <span className="percentage">
+                {overallSmartScore > 0 ? `${overallSmartScore}/10` : "- -"}
+              </span>
               <span>
                 {OVERALL_SMART_SCORE} &nbsp;
-                <Tooltip title="This score is only available when total weight is 100%">
+                <Tooltip title="This score is based on the overall goals and their SMART scores. You can re-evaluate the goals to get a more accurate score.">
                   <InfoOutlinedIcon fontSize="small" color="action" />
                 </Tooltip>
               </span>
             </Box>
           </Box>
         </Box>
-        {/* {isPublishSuccessFul && <PublishSuccess />} */}
+        {isPublishSuccessFul && <PublishSuccess />}
         {/* {isManagerFeedbackAvailable && <ManagerFeedback />} */}
         {/* <GoalsAccordion goals={goals} setGoals={setGoals} /> */}
-        {goals.map((goalCategory: any) => {
+        {goals.map((goalCategory: any, idx: number) => {
           return (
             <GoalsAccordion
+              key={idx}
               goals={goalCategory.goals}
               category={goalCategory.category}
             />
@@ -204,8 +209,8 @@ const GoalDashboard = () => {
         <EvaluateSmartScoreDialog
           openEvaluateGoalDialog={openEvaluateGoalDialog}
           setOpenEvaluateGoalDialog={setOpenEvaluateGoalDialog}
-          isPublishAnywayBtnClicked={isPublishAnywayBtnClicked}
-          setIsPublishAnywayBtnClicked={setIsPublishAnywayBtnClicked}
+          // isPublishAnywayBtnClicked={isPublishAnywayBtnClicked}
+          // setIsPublishAnywayBtnClicked={setIsPublishAnywayBtnClicked}
           publishToSFActiveBtn={publishToSFActiveBtn}
           setPublishToSFActiveBtn={setPublishToSFActiveBtn}
         />
